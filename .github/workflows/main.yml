@@ -27,7 +27,7 @@ jobs:
         echo "CLIENT_SECRET=${{ secrets.CLIENT_SECRET }}" >> .env
         echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
         echo "DB_USER=${{ secrets.DB_USER }}" >> .env
-        echo "DB_PASSWORD=et40k)&(^*%&^$%#@#!hGnRpsO6Z8&^%akLHK*(&&%^#@#$%^&*()98687564$uyvbFYTU*&*^%&^@)d" >> .env
+        echo "DB_PASSWORD='et40k)&(^*%&^$%#@#!hGnRpsO6Z8&^%akLHK*(&&%^#@#$%^&*()98687564$uyvbFYTU*&*^%&^@)d'" >> .env
         echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
         echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
         echo "EMAIL_HOST_USER=${{ secrets.EMAIL_HOST_USER }}" >> .env
