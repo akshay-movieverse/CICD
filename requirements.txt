@@ -1,0 +1,4 @@
+django-allauth==0.61.1
+mysqlclient==2.2.4
+razorpay==1.4.2
+django_csp==3.8

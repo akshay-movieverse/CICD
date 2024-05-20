@@ -1,0 +1,951 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load socialaccount %}
+
+
+
+{% block title %}Home{% endblock %}
+    {% block css %}
+        {{ block.super }}
+    {% endblock %}
+
+    {% block headscripts %}
+        {{ block.super }}
+    {% endblock %}
+
+
+
+
+
+    {% block header %}
+
+    <!--header-->
+    <header class="fixed top-0 w-full z-40 bg-white">
+        <nav class="bg-gray-700">
+            <div class="flex justify-between items-center h-[57px] relative 2xl:px-9 px-4 md:px-6">
+                <!-- logo -->
+
+                <a href="{% url 'company-home' %}">
+                    <img src='{{ site_variables.url |default_if_none:""}}/static/logo/{{ site_variables.logo |default_if_none:""}}' class="md:h-auto h-5" height="100%" width="100%" alt="logo" />
+                </a>
+                <!-- /logo -->
+                <div class="flex flex-row items-center">
+                    <!-- cart -->
+                    <div class="text-base leading-2 font-bold mr-12">
+                        <a class="text-white mb-3 cart-active" href="{% url 'check-out' %}">
+                            <span id="total_cart_items" class="block text-right -mr-[6px] -mb-[6px]">{{total_cart}}</span>
+                            <img src="{% static './images/bucket.svg'  %}" class="empty" height="100%" width="100%"
+                                alt="bucket" />
+                            <img src="{% static './images/bucket-fill.svg'  %}" class="fill" height="100%" width="100%"
+                                alt="bucket" />
+                        </a>
+                    </div>
+                    <!-- /cart -->
+                    <!-- gmail -->
+                    <!-- <button>
+                        <img src="{% static './images/gmail.svg'  %}" class="md:h-auto md:w-auto h-6 w-6" height="100%"
+                            width="100%" alt="gmail" />
+                    </button> -->
+
+                    {% if user.is_authenticated %}
+                    
+                        <a href="{% url 'logout_view' %}"><p style="color: gold;">Logout {{user.username}} </p></a>
+
+                        <!-- <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" class="md:h-auto md:w-auto h-6 w-6" height="100%"
+                            width="100%" alt="gmail" />
+                             -->
+                    {% else %}
+                        <!-- <a href="{% provider_login_url 'google' %}?next=/"><img src="{% static './images/gmail.svg'  %}" class="md:h-auto md:w-auto h-6 w-6" height="100%"
+                            width="100%" alt="gmail" /></a> -->
+
+   
+                            <div id="g_id_onload"
+                                    data-client_id="143188303993-dsj64d4e1r8gg85isgiuf1k25p3gv2cu.apps.googleusercontent.com"
+                                    data-context="signin"
+                                    data-ux_mode="popup"
+                                    data-login_uri="{% url 'google-one-tap-login' %}"
+                                    data-auto_select="true"
+                                    data-close_on_tap_outside="false"
+                                    data-itp_support="true"
+                                    >
+                            </div>
+                            
+                            <div class="g_id_signin"
+                                    data-type="icon"
+                                    data-shape="circle"
+                                    data-theme="outline"
+                                    data-text="signin_with"
+                                    data-size="large">
+                            </div>
+
+                    {% endif %}
+                    <!-- /gmail -->
+
+                </div>
+           
+            </div>
+        </nav>
+    </header>
+    {% endblock %}
+
+
+
+
+
+
+{% block content %}
+
+    <!--/header-->
+
+
+
+    <main>
+        <div id="dropdownBackdrop"
+            class="bg-black invisible transition-all duration-200 bg-opacity-90 h-full w-full fixed top-0 left-0 z-10 pointer-events-none">
+        </div>
+        <!--banner-->
+        <section class="bg-home-banner py-8">
+            <div class="md:container flex flex-col">
+                <div class="xl:w-2/3 lg:w-4/5 md:mx-auto pl-5">
+                    <div
+                        class="md:px-0 pr-5 md:text-5xl md:leading-6 text-xs leading-sm text-teal-700 text-center mb-4 flex items-center justify-center">
+                        Gain legal and verified understanding customers, suppliers, partners, and competitors
+                    </div>
+                    <h1
+                        class="md:px-0 pr-5 text-gray-700 text-center md:text-10xl md:leading-[66px] text-6xl leading-7 font-semibold md:mb-10 mb-6">
+                        Incorporation and shareholding details of registered private
+                        companies in <span class="text-purple-600">{{ site_variables.country_name |default_if_none:""}}</span>
+                    </h1>
+                    <!-- <ul
+                        class="flex itemx-center pr-5 md:pr-0 overflow-x-auto md:justify-center md:flex-wrap overflow-y-hidden hide-scroll mx-auto gap-4 mb-10 lg:justify-center w-full font-normal md:text-md leading-sm md:leading-xl text-xs text-slate-600">
+                        <li class="flex-shrink-0">
+                            <input hidden type="radio" name="company-search" class="peer" value="Singapore"
+                                id="singapore" checked />
+                            <label for="singapore"
+                                class="bg-white rounded-[30px] block border border-white py-1.5 cursor-pointer ease-linear duration-100 px-4 hover:bg-teal-700 hover:text-white hover:border-teal-700 hover:font-medium peer-checked:font-medium peer-checked:bg-teal-700 peer-checked:text-white peer-checked:border-teal-700">Singapore</label>
+                        </li>
+                        <li class="flex-shrink-0">
+                            <input hidden type="radio" class="peer" name="company-search" value="Canada"
+                                id="canada" />
+                            <label for="canada"
+                                class="bg-white rounded-[30px] block border border-white py-1.5 cursor-pointer ease-linear duration-100 px-4 hover:bg-teal-700 hover:text-white hover:border-teal-700 hover:font-medium peer-checked:font-medium peer-checked:bg-teal-700 peer-checked:text-white peer-checked:border-teal-700">Canada</label>
+                        </li>
+                        <li class="flex-shrink-0">
+                            <input disabled hidden type="radio" class="peer" name="company-search" value="Australia"
+                                id="australia" />
+                            <label  disabled for="australia"
+                                class="bg-white rounded-[30px] block border border-white py-1.5 cursor-pointer ease-linear duration-100 px-4 hover:bg-teal-700 hover:text-white hover:border-teal-700 hover:font-medium peer-checked:font-medium peer-checked:bg-teal-700 peer-checked:text-white peer-checked:border-teal-700">Australia</label>
+                        </li>
+                        <li  class="flex-shrink-0">
+                            <input disabled hidden type="radio" class="peer" name="company-search" value="Malaysia"
+                                id="malaysia" />
+                            <label disabled for="malaysia"
+                                class="bg-white rounded-[30px] block border border-white py-1.5 cursor-pointer ease-linear duration-100 px-4 hover:bg-teal-700 hover:text-white hover:border-teal-700 hover:font-medium peer-checked:font-medium peer-checked:bg-teal-700 peer-checked:text-white peer-checked:border-teal-700">Malaysia</label>
+                        </li>
+                        <li class="flex-shrink-0">
+                            <input disabled hidden type="radio" class="peer" name="company-search" value="Philippines"
+                                id="philippines" />
+                            <label disabled for="philippines"
+                                class="bg-white rounded-[30px] block border border-white py-1.5 cursor-pointer ease-linear duration-100 px-4 hover:bg-teal-700 hover:text-white hover:border-teal-700 hover:font-medium peer-checked:font-medium peer-checked:bg-teal-700 peer-checked:text-white peer-checked:border-teal-700">Philippines</label>
+                        </li>
+                        <li class="flex-shrink-0">
+                            <input disabled hidden type="radio" class="peer" name="company-search" value="Thailand"
+                                id="thailand" />
+                            <label disabled for="thailand"
+                                class="bg-white rounded-[30px] block border border-white py-1.5 cursor-pointer ease-linear duration-100 px-4 hover:bg-teal-700 hover:text-white hover:border-teal-700 hover:font-medium peer-checked:font-medium peer-checked:bg-teal-700 peer-checked:text-white peer-checked:border-teal-700">Thailand</label>
+                        </li>
+                        <li class="flex-shrink-0">
+                            <input disabled hidden type="radio" class="peer" name="company-search" value="HongKong"
+                                id="hongKong" />
+                            <label disabled for="hongKong"
+                                class="bg-white rounded-[30px] block border border-white py-1.5 cursor-pointer ease-linear duration-100 px-4 hover:bg-teal-700 hover:text-white hover:border-teal-700 hover:font-medium peer-checked:font-medium peer-checked:bg-teal-700 peer-checked:text-white peer-checked:border-teal-700">Hong
+                                Kong</label>
+                        </li>
+                    </ul> -->
+                    <!-- search area -->
+                    <div class="pr-5 md:pr-0 mb-12">
+                        <div
+                            class="bg-white md:h-20 h-12 md:w-4/5 mx-auto flex justify-between md:pr-3 pr-1 rounded-xl relative z-20">
+                            <input type="text" id="search-input"
+                                class="flex-grow bg-search-icon placeholder-neutral-500 company-search-menu bg-no-repeat bg-[10px_center] rounded-t-xl rounded-b-xl pl-11 pr-1 text-neutral-600 font-normal md:text-base text-xs leading-2 py-3 focus:outline-none"
+                                placeholder="Search company name here..." />
+                            <button id="searchButton"
+                                class="md:text-4xl text-md my-1 md:my-3 lg:py-3 py-2 md:leading-7 leading-xl font-medium text-white bg-teal-700 lg:px-5 px-3 rounded-xl">
+                                Search
+                            </button>
+                            <small
+                                class="absolute z-10 company-menu-error opacity-0 leading-xl py-2 px-3 text-red-500 invisible bg-white mt-1 w-full top-full duration-200 shadow-xxs rounded-2xl md:text-base text-md">Type
+                                minimum 3 characters.</small>
+                            <ul id="result"
+                                class="absolute z-10 company-menu-list opacity-0 invisible bg-white mt-1 w-full top-full duration-200 shadow-xxs leading-4 rounded-2xl md:text-base text-md font-bold overflow-x-hidden truncate">
+                                <!-- <li>
+                                    <a class="duration-200 leading-xl py-1.5 text-teal-600 block truncate px-3 hover:bg-amber-200"
+                                        href="javascript:void(0)">Lorem, ipsum dolor sit amet consectetur adipisicing
+                                        elit.
+                                        Distinctio vero nihil voluptatum laborum consequatur et
+                                        ratione possimus omnis consequuntur
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="duration-200 leading-xl py-1.5 text-teal-600 block truncate px-3 hover:bg-amber-200"
+                                        href="javascript:void(0)">Lorem, ipsum dolor sit amet consectetur adipisicing
+                                        elit.</a>
+                                </li>
+                                <li>
+                                    <a class="duration-200 leading-xl py-1.5 text-teal-600 block truncate px-3 hover:bg-amber-200"
+                                        href="javascript:void(0)">Lorem, ipsum dolor sit amet consectetur adipisicing
+                                        elit.</a>
+                                </li>
+                                <li>
+                                    <a class="duration-200 leading-xl py-1.5 text-teal-600 block truncate px-3 hover:bg-amber-200"
+                                        href="javascript:void(0)">Lorem, ipsum dolor sit amet consectetur adipisicing
+                                        elit.</a>
+                                </li>
+                                <li>
+                                    <a class="duration-200 leading-xl py-1.5 text-teal-600 block truncate px-3 hover:bg-amber-200"
+                                        href="javascript:void(0)">Lorem, ipsum dolor sit amet consectetur adipisicing
+                                        elit.</a>
+                                </li>
+                                <li>
+                                    <a class="duration-200 leading-xl py-1.5 text-teal-600 block truncate px-3 hover:bg-amber-200"
+                                        href="javascript:void(0)">Lorem, ipsum dolor sit amet consectetur adipisicing
+                                        elit.</a>
+                                </li>
+                                <li>
+                                    <a class="duration-200 leading-xl py-1.5 text-teal-600 block truncate px-3 hover:bg-amber-200"
+                                        href="javascript:void(0)">Lorem, ipsum dolor sit amet consectetur adipisicing
+                                        elit.
+                                        Distinctio vero nihil voluptatum laborum consequatur et
+                                        ratione possimus omnis consequuntur
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="duration-200 leading-xl py-1.5 text-teal-600 block truncate px-3 hover:bg-amber-200"
+                                        href="javascript:void(0)">Lorem, ipsum dolor sit amet consectetur adipisicing
+                                        elit.</a>
+                                </li> -->
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /search area -->
+                    <div class="text-center mb-5 pr-5 md:pr-0"><a
+                            class="text-teal-600 cursor-pointer font-semibold md:text-5xl md:leading-6 text-xs leading-sm"
+                            href="javascript:void(0)" id="handleSearchCompany">Can’t search company name?</a></div>
+                    <div class="pr-5 md:pr-0">
+                        <div id="companySearchFormBlock"
+                            class="hidden relative bg-white px-5 md:px-12 pt-3.5 pb-4 md:pb-2 border border-neutral-300 mx-auto rounded-xl">
+                            <form id="companySearchForm" class="flex flex-col lg:flex-row gap-x-7 gap-y-2 lg:gap-y-0"
+                                novalidate>
+                                <div class="flex flex-col flex-1">
+                                    <label for="companyName" class="text-neutral-500 mb-1 text-base leading-2">Company
+                                        name</label>
+                                    <input id="companyName"
+                                        class="char-only-input border-[0.4px] border-black focus:outline-none focus:border-teal-600 rounded-[4px] px-2 h-[34px] w-full text-md mb-1"
+                                        type="text" minlength="5" maxlength="50" name="companyName" required="">
+                                    <span class="text-sm error-text text-red-500 invisible opacity-0 duration-200">oops!
+                                        wrong
+                                        company name</span>
+                                </div>
+                                <div class="flex flex-col flex-1">
+                                    <label for="companyRegistration"
+                                        class="text-neutral-500 text-base leading-2 mb-1">Country of
+                                        registration</label>
+                                    <input id="companyRegistration"
+                                        class="char-only-input border-[0.4px] border-black focus:outline-none focus:border-teal-600 rounded-[4px] px-2 h-[34px] w-full text-md mb-1"
+                                        type="text" name="companyRegistration" minlength="5" maxlength="50" required>
+                                    <span class="text-sm error-text text-red-500 invisible opacity-0 duration-200">oops!
+                                        wrong
+                                        country name</span>
+                                </div>
+                                <div class="flex flex-col flex-1">
+                                    <label for="companyEmail" class="text-neutral-500 text-base leading-2 mb-1">Your
+                                        official email id</label>
+                                    <input id="companyEmail"
+                                        class="border-[0.4px] border-black focus:outline-none focus:border-teal-600 rounded-[4px] px-2 h-[34px] w-full text-md mb-1"
+                                        type="email" name="companyEmail" minlength="5" maxlength="50" required>
+                                    <span class="text-sm error-text text-red-500 invisible opacity-0 duration-200">oops!
+                                        wrong
+                                        email id format</span>
+                                </div>
+                                <button type="submit" id="searchCompanySubmitBtn"
+                                    class="text-teal-600 rounded-[4px] font-bold h-[34px] w-24 border-2 border-teal-600 text-base leading-2 transition duration-200 hover:bg-teal-600 hover:text-white mt-2 md:mt-6">Send</button>
+                                <button type="button" id="hideCompanyForm" class="absolute right-1 top-1"><img
+                                        src="{% static './images/circle-cross.svg' %}" alt="icon"></button>
+                            </form>
+                        </div>
+                        <div id="successMessage" class="hidden">
+                            <p
+                                class="flex justify-center items-center md:text-tiny text-sm leading-xl text-gray-700 font-medium">
+                                <img class="mr-2" src="{% static './images/follow.svg' %}" alt="icon">
+                                Please allow us sometime. We will confirm the availability.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--/banner-->
+        <!--our reports-->
+        <section class="md:py-14 py-6">
+            <div class="container lg:px-28 px-5">
+                <div
+                    class="md:text-5xl md:leading-6 text-xs leading-sm text-teal-700 text-center mb-4 flex items-center justify-center">
+                    Gain understanding of your customers, suppliers, partners, and competitors.
+                </div>
+                <h1
+                    class="text-center md:text-10xl text-gray-700 md:leading-[66px] text-6xl leading-7 font-semibold mb-4">
+                    Our reports are fresh from the government registries, courts from 30+ Countries
+
+                </h1>
+                <p class="md:text-4xl md:leading-5 text-md leading-2 text-gray-600 text-center mb-12">
+                    Know the types of company reports, cross checked, translated and
+                    verified
+                </p>
+            </div>
+            <div class="container px-5 lg:px-0">
+                <!-- row -->
+                <div class="grid lg:grid-cols-2 lg:gap-y-28 md:gap-y-16 gap-y-6 gap-x-12">
+                    <!--col-->
+                    <div class="order-2 lg:order-1 lg:pl-28">
+                        <img src="{% static './images/circle-envelope.svg' %}" class="mb-6 h-8 w-8 md:h-auto md:w-auto"
+                            alt="circle-envelope" />
+                        <h3 class="md:text-7xl md:leading-9 text-6xl leading-7 font-semibold mb-4 text-gray-700">
+                            Company information and status
+                        </h3>
+                        <p class="md:text-2xl md:leading-7 mb-8 leading-2 text-md">
+                            If the company is active or defunt or in arbitration (i.e. under
+                            company law tribunal due to any conflict) and other basic
+                            details.
+                        </p>
+                        <!--list-->
+                        <div class="flex flex-col gap-y-8">
+                            <div class="flex items-start gap-x-3">
+                                <img src="{% static './images/circle-check.svg' %}" class="h-5 w-5 md:h-auto md:w-auto"
+                                    alt="circle-check" />
+                                <div>
+                                    <h4
+                                        class="md:text-4xl font-semibold mb-2 md:leading-7 text-base leading-2 text-gray-600">
+                                        Status of the company: In/Active in government papers
+                                    </h4>
+                                    <p class="md:text-2xl md:leading-7 text-md leading-2 text-gray-600">
+                                        Companies are active and in some cases non-active or struck down due to
+                                        arbitrations or under jurisdiction, and/or for other reasons
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-x-3">
+                                <img src="{% static './images/circle-check.svg' %}" class="h-5 w-5 md:w-auto md:h-auto"
+                                    alt="circle-check" />
+                                <div>
+                                    <h4
+                                        class="md:text-4xl font-semibold mb-2 md:leading-7 text-base leading-2 text-gray-600">
+                                        Date of last registry update, address, details, etc.
+                                    </h4>
+                                    <p class="md:text-2xl md:leading-7 text-md leading-2 text-gray-600">
+                                        The deed of incorporation, certificate, founders details,
+                                        shareholders, equity and address it formally holds.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-x-3">
+                                <img src="{% static './images/circle-check.svg' %}" class="h-5 w-5 md:w-auto md:h-auto"
+                                    alt="circle-check" />
+                                <div>
+                                    <h4
+                                        class="md:text-4xl font-semibold mb-2 md:leading-7 text-base leading-2 text-gray-600">
+                                        Company type and classification
+                                    </h4>
+                                    <p class="md:text-2xl md:leading-7 text-md leading-2 text-gray-600">
+                                        Category of business, sub-category, objective, types, and
+                                        purpose under which company operates as per the deed of
+                                        incorporation
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/list -->
+                    </div>
+                    <!-- col -->
+                    <!--col-->
+                    <div class="h-100 order-1 lg:order-2 lg:pr-8">
+                        <img src="{% static './images/company-status.png' %}" loading="lazy" height="100%" width="100%"
+                            class="h-full mx-auto" alt="company-status" />
+                    </div>
+                    <!-- col -->
+                    <!--col-->
+                    <div class="h-100 order-3 sm:pl-12">
+                        <img src="{% static './images/capital-share.png' %}" loading="lazy" height="100%" width="100%"
+                            class="h-full mx-auto" alt="company-share" />
+                    </div>
+                    <!-- col -->
+                    <!--col-->
+                    <div class="order-4 lg:pr-11">
+                        <img src="{% static './images/circle-dollar.svg' %}"
+                            class="h-8 w-8 md:h-auto md:w-auto lg:relative bottom-6 mb-6" alt="circle-envelope" />
+                        <h3 class="md:text-7xl md:leading-9 text-6xl leading-7 font-semibold mb-4 text-gray-700">
+                            Financial, shareholding pattern and changes
+                        </h3>
+                        <p class="md:text-2xl md:leading-7 mb-8 leading-2 text-md">
+                            Complete list of company's shareholders, directors and
+                            representatives along with capital structure and over all
+                            company’s capital since incorporation
+                        </p>
+                        <!--list-->
+                        <div class="flex flex-col gap-y-8">
+                            <div class="flex items-start gap-x-3">
+                                <img src="{% static './images/circle-check.svg' %}" class="h-5 w-5 md:h-auto md:w-auto"
+                                    alt="circle-check" />
+                                <div>
+                                    <h4
+                                        class="md:text-4xl font-semibold mb-2 md:leading-7 text-base leading-2 text-gray-600">
+                                        Total Capital
+                                    </h4>
+                                    <p class="md:text-2xl md:leading-7 text-md leading-2 text-gray-600">
+                                        Companies are Suggested authorized capital and capital
+                                        seeded. Number of shares alotted to each one of
+                                        shareholders, price each share.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-x-3">
+                                <img src="{% static './images/circle-check.svg' %}" class="h-5 w-5 md:w-auto md:h-auto"
+                                    alt="circle-check" />
+                                <div>
+                                    <h4
+                                        class="md:text-4xl font-semibold mb-2 md:leading-7 text-base leading-2 text-gray-600">
+                                        Shareholders details
+                                    </h4>
+                                    <p class="md:text-2xl md:leading-7 text-md leading-2 text-gray-600">
+                                        A list of shareholders in company and shares each of them
+                                        owns + what has been changed over the period of time.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-x-3">
+                                <img src="{% static './images/circle-check.svg' %}" class="h-5 w-5 md:w-auto md:h-auto"
+                                    alt="circle-check" />
+                                <div>
+                                    <h4
+                                        class="md:text-4xl font-semibold mb-2 md:leading-7 text-base leading-2 text-gray-600">
+                                        Local resident Directors or representatives
+                                    </h4>
+                                    <p class="md:text-2xl md:leading-7 text-md leading-2 text-gray-600">
+                                        A list of Directors, representatives, ownership and who
+                                        owns how many shares (or do not own) shares in the
+                                        company.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/list -->
+                    </div>
+                    <!-- col -->
+                    <!--col-->
+                    <div class="order-6 lg:order-5 lg:pl-28">
+                        <img src="{% static './images/circle-todo.svg' %}" class="mb-6 h-8 w-8 md:h-auto md:w-auto"
+                            alt="circle-todo" />
+                        <h3 class="md:text-7xl md:leading-9 text-6xl leading-7 font-semibold mb-4 text-gray-700">
+                            Corporate structure changes and history
+                        </h3>
+                        <p class="md:text-2xl md:leading-7 mb-8 leading-2 text-md">
+                            The detailed view of company information report. This provides
+                            changes in the company's deed in its history so far.
+                        </p>
+                        <!--list-->
+                        <div class="flex flex-col gap-y-8">
+                            <div class="flex items-start gap-x-3">
+                                <img src="{% static './images/circle-check.svg' %}" class="h-5 w-5 md:h-auto md:w-auto"
+                                    alt="circle-check" />
+                                <div>
+                                    <h4
+                                        class="md:text-4xl font-semibold mb-2 md:leading-7 text-base leading-2 text-gray-600">
+                                        Changes in corporate structure
+                                    </h4>
+                                    <p class="md:text-2xl md:leading-7 text-md leading-2 text-gray-600">
+                                        Companies are active and in some cases non-active or
+                                        struck down due to arbitrations or under jurisdiction,
+                                        and/or for other reasons
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-x-3">
+                                <img src="{% static './images/circle-check.svg' %}" class="h-5 w-5 md:w-auto md:h-auto"
+                                    alt="circle-check" />
+                                <div>
+                                    <h4
+                                        class="md:text-4xl font-semibold mb-2 md:leading-7 text-base leading-2 text-gray-600">
+                                        Changes in capital and investments
+                                    </h4>
+                                    <p class="md:text-2xl md:leading-7 text-md leading-2 text-gray-600">
+                                        The deed of incorporation, certificate, founders details,
+                                        shareholders, equity and address it formally holds.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/list -->
+                    </div>
+                    <!-- col -->
+                    <!--col-->
+                    <div class="h-100 order-5 lg:order-6 lg:pr-8">
+                        <img src="{% static './images/articles-assoc.png' %}" class="h-full mx-auto" alt="Articles" />
+                    </div>
+                    <!-- col -->
+                </div>
+                <!-- /row -->
+            </div>
+        </section>
+        <!--/our reports-->
+        <!-- approved countries-->
+        <section class="md:py-16 lg:py-14 py-6">
+            <div class="container lg:px-28 px-5">
+                <h1
+                    class="text-center md:text-10xl text-gray-700 md:leading-[66px] text-6xl leading-7 font-semibold mb-4">
+                    One stop Platform for all other Corporate Services
+                </h1>
+                <p class="md:text-4xl md:leading-7 text-md leading-2 text-gray-600 text-center md:mb-12 mb-6">
+                    Our team searches thoroughly, with integrity and accuracy.<br /> All
+                    processes include multiple layers of quality control to provide
+                    credible results.
+                </p>
+                <!-- row -->
+                <div class="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-x-6 gap-y-8">
+                    <!--col-->
+                    <div class="text-center group">
+                        <a href="javascript:void(0)" 
+                            class="group-hover:border-teal-600 group-active:border-teal-600 items-center group-hover:bg-teal-50 group-active:bg-teal-50 border border-slate-100 bg-white bg-opacity-40 rounded-3xl shadow-normal px-3 py-4 flex flex-col gap-y-6 justify-center">
+                            <div>
+                                <img class="group-hover:hidden block group-active:hidden h-10 w-10 md:h-auto md:w-auto"
+                                    src="{% static './images/circle-stats.svg' %}" alt="Stats" />
+                                <img class="group-hover:block hidden group-active:block h-10 w-10 md:h-auto md:w-auto"
+                                    src="{% static './images/circle-stats-fill.svg' %}" alt="Stats" />
+                            </div>
+                            <h4
+                                class="text-teal-600 md:text-5xl md:leading-6 text-base leading-2 group-hover:font-bold">
+                                Business Ops
+                            </h4>
+                        </a>
+                    </div>
+                    <!--/col-->
+                    <!--col-->
+                    <div class="text-center group">
+                        <a href="javascript:void(0)" 
+                            class="group-hover:border-teal-600 h-full group-active:border-teal-600 items-center group-hover:bg-teal-50 group-active:bg-teal-50 border border-slate-100 bg-white bg-opacity-40 rounded-3xl shadow-normal px-3 py-4 flex flex-col gap-y-6 justify-center">
+                            <div>
+                                <img class="group-hover:block hidden group-active:block h-10 w-10 md:h-auto md:w-auto"
+                                    src="{% static './images/circle-clipboard.svg' %}" alt="clipboard" />
+                                <img class="group-hover:hidden block group-active:hidden h-10 w-10 md:h-auto md:w-auto"
+                                    src="{% static './images/circle-clipboard-fill.svg' %}" alt="clipboard" />
+                            </div>
+                            <h4
+                                class="text-teal-600 md:text-5xl md:leading-6 text-base leading-2 group-hover:font-bold">
+                                Civil Records
+                            </h4>
+                        </a>
+                    </div>
+                    <!--/col-->
+                    <!--col-->
+                    <div class="text-center group">
+                        <a href="javascript:void(0)" 
+                            class="group-hover:border-teal-600 h-full group-active:border-teal-600 items-center group-hover:bg-teal-50 group-active:bg-teal-50 border border-slate-100 bg-white bg-opacity-40 rounded-3xl shadow-normal px-3 py-4 flex flex-col gap-y-6 justify-center">
+                            <div>
+                                <img class="group-hover:hidden block group-active:hidden h-10 w-10 md:h-auto md:w-auto"
+                                    src="{% static './images/circle-chart-fill.svg' %}" alt="chart" />
+                                <img class="group-hover:block hidden group-active:block h-10 w-10 md:h-auto md:w-auto"
+                                    src="{% static './images/circle-chart.svg' %}" alt="chart" />
+                            </div>
+                            <h4
+                                class="text-teal-600 md:text-5xl md:leading-6 text-base leading-2 group-hover:font-bold">
+                                Company Reports
+                            </h4>
+                        </a>
+                    </div>
+                    <!--/col-->
+                    <!--col-->
+                    <div class="text-center group">
+                        <a href="javascript:void(0)" 
+                            class="group-hover:border-teal-600 h-full group-active:border-teal-600 items-center group-hover:bg-teal-50 group-active:bg-teal-50 border border-slate-100 bg-white bg-opacity-40 rounded-3xl shadow-normal px-3 py-4 flex flex-col gap-y-6 justify-center">
+                            <div>
+                                <img class="group-hover:hidden block group-active:hidden h-10 w-10 md:h-auto md:w-auto"
+                                    src="{% static './images/circle-heart-beat-fill.svg' %}" alt="heart" />
+                                <img class="group-hover:block hidden group-active:block h-10 w-10 md:h-auto md:w-auto"
+                                    src="{% static './images/circle-heart-beat.svg' %}" alt="heart" />
+                            </div>
+                            <h4
+                                class="text-teal-600 md:text-5xl md:leading-6 text-base leading-2 group-hover:font-bold">
+                                Health & Medical
+                            </h4>
+                        </a>
+                    </div>
+                    <!--/col-->
+                    <!--col-->
+                    <div class="text-center group">
+                        <a href="javascript:void(0)" 
+                            class="group-hover:border-teal-600 h-full group-active:border-teal-600 items-center group-hover:bg-teal-50 group-active:bg-teal-50 border border-slate-100 bg-white bg-opacity-40 rounded-3xl shadow-normal px-3 py-4 flex flex-col gap-y-6 justify-center">
+                            <div>
+                                <img class="group-hover:hidden block group-active:hidden h-10 w-10 md:h-auto md:w-auto"
+                                    src="{% static './images/circle-legal-fill.svg' %}" alt="legal" />
+                                <img class="group-hover:block hidden group-active:block h-10 w-10 md:h-auto md:w-auto"
+                                    src="{% static './images/circle-legal.svg' %}" alt="legal" />
+                            </div>
+                            <h4
+                                class="text-teal-600 md:text-5xl md:leading-6 text-base leading-2 group-hover:font-bold">
+                                Legal
+                            </h4>
+                        </a>
+                    </div>
+                    <!--/col-->
+                    <!--col-->
+                    <div class="text-center group">
+                        <a href="javascript:void(0)" 
+                            class="group-hover:border-teal-600 h-full group-active:border-teal-600 items-center group-hover:bg-teal-50 group-active:bg-teal-50 border border-slate-100 bg-white bg-opacity-40 rounded-3xl shadow-normal px-3 py-4 flex flex-col gap-y-6 justify-center">
+                            <div>
+                                <img class="group-hover:hidden block group-active:hidden h-10 w-10 md:h-auto md:w-auto"
+                                    src="{% static './images/circle-hand-currency-fill.svg' %}" alt="currency" />
+                                <img class="group-hover:block hidden group-active:block h-10 w-10 md:h-auto md:w-auto"
+                                    src="{% static './images/circle-hand-currency.svg' %}" alt="currency" />
+                            </div>
+                            <h4
+                                class="text-teal-600 md:text-5xl md:leading-6 text-base leading-2 group-hover:font-bold">
+                                Property & Assets
+                            </h4>
+                        </a>
+                    </div>
+                    <!--/col-->
+                    <!--col-->
+                    <div class="text-center group">
+                        <a href="javascript:void(0)" 
+                            class="group-hover:border-teal-600 h-full group-active:border-teal-600 items-center group-hover:bg-teal-50 group-active:bg-teal-50 border border-slate-100 bg-white bg-opacity-40 rounded-3xl shadow-normal px-3 py-4 flex flex-col gap-y-6 justify-center">
+                            <div>
+                                <img class="group-hover:hidden block group-active:hidden h-10 w-10 md:h-auto md:w-auto"
+                                    src="{% static './images/circle-fill-doc-search.svg' %}" alt="todo" />
+                                <img class="group-hover:block hidden group-active:block h-10 w-10 md:h-auto md:w-auto"
+                                    src="{% static './images/circle-doc-search.svg' %}" alt="todo" />
+                            </div>
+                            <h4
+                                class="text-teal-600 md:text-5xl md:leading-6 text-base leading-2 group-hover:font-bold">
+                                Recruitment
+                            </h4>
+                        </a>
+                    </div>
+                    <!--/col-->
+                    <!--col-->
+                    <div class="text-center group">
+                        <a href="javascript:void(0)" 
+                            class="group-hover:border-teal-600 h-full group-active:border-teal-600 items-center group-hover:bg-teal-50 group-active:bg-teal-50 border border-slate-100 bg-white bg-opacity-40 rounded-3xl shadow-normal px-3 py-4 flex flex-col gap-y-6 justify-center">
+                            <div>
+                                <img class="group-hover:hidden block group-active:hidden h-10 w-10 md:h-auto md:w-auto"
+                                    src="{% static './images/circle-tax-fill.svg' %}" alt="tax" />
+                                <img class="group-hover:block hidden group-active:block h-10 w-10 md:h-auto md:w-auto"
+                                    src="{% static './images/circle-tax.svg' %}" alt="tax" />
+                            </div>
+                            <h4
+                                class="text-teal-600 md:text-5xl md:leading-6 text-base leading-2 group-hover:font-bold">
+                                Tax
+                            </h4>
+                        </a>
+                    </div>
+                    <!--/col-->
+                </div>
+                <!-- /row -->
+            </div>
+        </section>
+        <!--/approved countries-->
+        <!--how it works-->
+        <section class="md:py-16 lg:py-14 py-6">
+            <div class="container lg:px-28 px-5">
+                <h1
+                    class="text-center md:text-10xl text-gray-700 md:leading-[66px] text-6xl leading-7 font-semibold mb-14">
+                    How it Works
+                </h1>
+                <!-- row -->
+                <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-5 lg:gap-7 gap-y-16">
+                    <!-- col -->
+                    <div class="bg-red-50 bg-opacity-80 text-center p-8 rounded-3xl relative flex flex-col">
+                        <div class="inset-x-0 absolute md:-top-10 -top-8">
+                            <div
+                                class="text-center mx-auto bg-white shadow-normal rounded-full h-14 w-14 md:h-20 md:w-20 flex items-center justify-center">
+                                <img src="{% static './images/graph.svg' %}" class="md:h-auto md:w-auto h-7 w-7" alt="graph" />
+                            </div>
+                        </div>
+                        <h4
+                            class="text-gray-700 font-semibold md:text-6xl md:leading-7 text-4xl leading-5 md:mt-6 mt-2 mb-4">
+                            Search company name
+                        </h4>
+                        <p class="md:text-2xl md:leading-6 text-md leading-2 flex-grow text-gray-500">Find the
+                            companies pn home page you are interested in and
+                            them to the cart</p>
+                    </div>
+                    <!-- /col -->
+                    <!-- col -->
+                    <div class="bg-teal-50 bg-opacity-80 text-center p-8 rounded-3xl relative flex flex-col">
+                        <div class="inset-x-0 absolute md:-top-10 -top-8">
+                            <div
+                                class="text-center h-14 w-14  mx-auto bg-white shadow-normal rounded-full md:h-20 md:w-20 flex items-center justify-center">
+                                <img src="{% static './images/hand.svg' %}" class="md:h-auto md:w-auto h-7 w-7" alt="graph" />
+                            </div>
+                        </div>
+                        <h4 class="text-gray-700 font-semibold md:text-6xl md:leading-7 text-4xl leading-5 md:mt-6 mt-2 mb-4">Place
+                            an order
+                        </h4>
+                        <p class="md:text-2xl md:leading-6 text-md leading-2 flex-grow text-gray-500">Check all
+                            company details and delivery time (depends on country). Complete the payment</p>
+                    </div>
+                    <!-- /col -->
+                    <!-- col -->
+                    <div class="bg-slate-50 text-center p-8 rounded-3xl relative flex flex-col">
+                        <div class="inset-x-0 absolute md:-top-10 -top-8">
+                            <div
+                                class="text-center h-14 w-14  mx-auto bg-white shadow-normal rounded-full md:h-20 md:w-20 flex items-center justify-center">
+                                <img src="{% static './images/email.svg' %}" class="md:h-auto md:w-auto h-7 w-7" alt="email" />
+                            </div>
+                        </div>
+                        <h4 class="text-gray-700 font-semibold md:text-6xl md:leading-7 text-4xl leading-5 md:mt-6 mt-2 mb-4">
+                            Collect report by email</h4>
+                        <p class="md:text-2xl md:leading-6 text-md leading-2 flex-grow text-gray-500">We will
+                            collect the data and email you within mentioned timeframe</p>
+                    </div>
+                    <!-- /col -->
+                </div>
+                <!-- /row -->
+            </div>
+        </section>
+        <!--/how it works-->
+        <!-- info -->
+        <section class="bg-gradient-sky-blue md:py-28 py-8">
+            <div class="md:container lg:px-28 pl-5 flex overflow-auto w-full justify-center lg:justify-between">
+                <!-- row -->
+                <div
+                    class="flex md:justify-center md:flex-wrap overflow-y-hidden hide-scroll overflow-x-auto gap-6 flex-grow pr-5 sm:pr-0">
+                    <!-- col -->
+                    <div class="flex flex-col text-center flex-shrink-0 md:flex-grow">
+                        <a href="javascript:void(0)">
+                            <img src="{% static './images/pouch.svg' %}" height="100%" width="100%"
+                                class="h-20 w-14 md:h-auto md:w-auto mb-4 mx-auto" alt="loading/">
+                            <h4 class="md:text-6xl md:leading-7 text-md leading-xl text-gray-600 font-medium">No Set up
+                                Fee</h4>
+                        </a>
+                    </div>
+                    <!-- /col -->
+                    <!-- col -->
+                    <div class="flex flex-col text-center flex-shrink-0 flex-grow">
+                        <a href="javascript:void(0)">
+                            <img src="{% static './images/wallet.svg' %}" height="100%" width="100%"
+                                class="h-20 w-14 md:h-auto md:w-auto mb-4 mx-auto" alt="loading/">
+                            <h4 class="md:text-6xl md:leading-7 text-md leading-xl text-teal-700 font-medium">
+                                Pay-As-You-Go</h4>
+                        </a>
+                    </div>
+                    <!-- /col -->
+                    <!-- col -->
+                    <div class="flex flex-col text-center flex-shrink-0 flex-grow">
+                        <a href="javascript:void(0)">
+                            <img src="{% static './images/terms.svg' %}" height="100%" width="100%"
+                                class="h-20 w-14 md:h-auto md:w-auto mb-4 mx-auto" alt="loading/">
+                            <h4 class="md:text-6xl md:leading-7 text-md leading-xl text-teal-700 font-medium">Refundable
+                            </h4>
+                        </a>
+                    </div>
+                    <!-- /col -->
+                    <!-- col -->
+                    <div class="flex flex-col text-center flex-shrink-0 flex-grow">
+                        <a href="javascript:void(0)">
+                            <img src="{% static './images/handshake.svg' %}" height="100%" width="100%"
+                                class="h-20 w-14 md:h-auto md:w-auto mb-4 mx-auto" alt="loading/">
+                            <h4 class="md:text-6xl md:leading-7 text-md leading-xl text-teal-700 font-medium">À la Carte
+                            </h4>
+                        </a>
+                    </div>
+                    <!-- /col -->
+                    <!-- col -->
+                    <div class="flex flex-col text-center flex-shrink-0 flex-grow">
+                        <a href="javascript:void(0)">
+                            <img src="{% static './images/notes.svg' %}" height="100%" width="100%"
+                                class="h-20 w-14 md:h-auto md:w-auto mb-4 mx-auto" alt="loading/">
+                            <h4 class="md:text-6xl md:leading-7 text-md leading-xl text-teal-700 font-medium">Verified
+                                Data</h4>
+                        </a>
+                    </div>
+                    <!-- /col -->
+                </div>
+                <!-- /row -->
+            </div>
+        </section>
+        <!--- /info-->
+        <!--data info-->
+        <section class="md:py-16 lg:py-28 py-8">
+            <div class="container lg:px-28 px-5">
+                <!-- row -->
+                <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-y-10 md:gap-10">
+                    <!-- col -->
+                    <div class="bg-neutral-50 text-center p-8 relative flex flex-col border-2 border-green-400">
+                        <div
+                            class="text-center mx-auto bg-white shadow-normal rounded-full h-14 w-14 md:h-20 md:w-20 flex items-center justify-center">
+                            <img src="{% static './images/verfication.svg' %}" height="100%" width="100%"
+                                class="h-20 w-20 md:h-auto md:w-auto" alt="verification" />
+                        </div>
+                        <h4
+                            class="text-gray-700 font-semibold md:text-6xl md:leading-7 text-4xl leading-5 md:mt-6 mt-2 mb-4">
+                            Verification
+                        </h4>
+                        <p class="md:text-base md:leading-5 text-md leading-2 flex-grow text-gray-500">Put your
+                            potential business partner, supplier, onboarding on a firm foundation</p>
+                    </div>
+                    <!-- /col -->
+                    <!-- col -->
+                    <div class="bg-yellow-50 text-center p-8 relative flex flex-col border-2 border-yellow-400">
+                        <div
+                            class="text-center mx-auto bg-white shadow-normal rounded-full h-14 w-14 md:h-20 md:w-20 flex items-center justify-center">
+                            <img src="{% static './images/task.svg' %}" height="100%" width="100%"
+                                class="h-20 w-20 md:h-auto md:w-auto" alt="task" />
+                        </div>
+                        <h4
+                            class="text-gray-700 font-semibold md:text-6xl md:leading-7 text-4xl leading-5 md:mt-6 mt-2 mb-4">
+                            Analytics & Investigations
+                        </h4>
+                        <p class="md:text-base md:leading-5 text-md leading-2 flex-grow text-gray-500">Check the records
+                            to verify, validate, and financials, legal, regulatory or ESG risk
+                        </p>
+                    </div>
+                    <!-- /col -->
+                    <!-- col -->
+                    <div
+                        class="bg-violet-200 bg-opacity-40 text-center p-8 relative flex flex-col border-2 border-violet-400">
+                        <div
+                            class="text-center mx-auto bg-white shadow-normal rounded-full h-14 w-14 md:h-20 md:w-20 flex items-center justify-center">
+                            <img src="{% static './images/data-settings.svg' %}" height="100%" width="100%"
+                                class="h-20 w-20 md:h-auto md:w-auto" alt="task" />
+                        </div>
+                        <h4
+                            class="text-gray-700 font-semibold md:text-6xl md:leading-7 text-4xl leading-5 md:mt-6 mt-2 mb-4">
+                            Data Management
+                        </h4>
+                        <p class="md:text-base md:leading-5 text-md leading-2 flex-grow text-gray-500">Create a
+                            foundational spine to simplify master-data management, entity resolution and data cleansing
+                        </p>
+                    </div>
+                    <!-- /col -->
+                </div>
+                <!-- /row -->
+            </div>
+        </section>
+        <!--/data info-->
+        <!-- unique data-->
+        <section class="md:py-16 lg:py-28 py-8 bg-violet-100 bg-opacity-50">
+            <div class="container lg:px-28 px-5">
+                <h1
+                    class="text-center md:text-10xl text-gray-700 md:leading-[66px] text-6xl leading-7 font-semibold mb-6 md:mb-10">
+                    What makes our company data unique?
+                </h1>
+                <!-- row -->
+                <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-y-6 md:gap-10">
+                    <!-- col -->
+                    <div class="bg-white p-8 rounded-3xl relative flex flex-col gap-6 shadow-xxs">
+                        <div class="flex items-center gap-4">
+                            <img src="{% static './images/legal-icon.svg' %}" height="100%" width="100%"
+                                class="md:h-auto md:w-auto h-12 w-12" alt="legal" />
+                            <h4 class="text-gray-700 font-semibold md:leading-7 text-4xl leading-5">
+                                Government Verified
+                            </h4>
+                        </div>
+                        <p class="md:text-base md:leading-5 text-md leading-2 flex-grow text-gray-500">All our data
+                            comes from primary public sources – we don’t buy any third-party data, and are transparent
+                            about – meaning users can rely on {{ site_variables.halfdomain|default_if_none:""}} data.</p>
+                    </div>
+                    <!-- /col -->
+                    <!-- col -->
+                    <div class="bg-white p-8 rounded-3xl relative flex flex-col gap-6 shadow-xxs">
+                        <div class="flex items-center gap-4">
+                            <img src="{% static './images/data-scale.svg' %}" height="100%" width="100%"
+                                class="md:h-auto md:w-auto h-12 w-12" alt="data" />
+                            <h4 class="text-gray-700 font-semibold md:leading-7 text-4xl leading-5">
+                                Data At Scale
+                            </h4>
+                        </div>
+                        <p class="md:text-base md:leading-5 text-md leading-2 flex-grow text-gray-500">We are the
+                            trustworthy database of companies in the world. We have 20 M+ companies covered from 15
+                            jurisdictions, all brought together into a standardised global schema.</p>
+                    </div>
+                    <!-- /col -->
+                    <!-- col -->
+                    <div class="bg-white p-8 rounded-3xl relative flex flex-col gap-6 shadow-xxs">
+                        <div class="flex items-center gap-4">
+                            <img src="{% static './images/identifier.svg' %}" height="100%" width="100%"
+                                class="md:h-auto md:w-auto h-12 w-12" alt="legal" />
+                            <h4 class="text-gray-700 font-semibold md:leading-7 text-4xl leading-5">
+                                Open Identifiers
+                            </h4>
+                        </div>
+                        <p class="md:text-base md:leading-5 text-md leading-2 flex-grow text-gray-500">Unlike the
+                            traditional ‘black-box’ data providers, {{ site_variables.halfdomain|default_if_none:""}} provides open (non-proprietary)
+                            identifiers based on the identifiers issued by the official source.</p>
+                    </div>
+                    <!-- /col -->
+                    <!-- col -->
+                    <div class="bg-white p-8 rounded-3xl relative flex flex-col gap-6 shadow-xxs">
+                        <div class="flex items-center gap-4">
+                            <img src="{% static './images/control.svg' %}" height="100%" width="100%"
+                                class="md:h-auto md:w-auto h-12 w-12" alt="control" />
+                            <h4 class="text-gray-700 font-semibold md:leading-7 text-4xl leading-5">
+                                Full Provenance
+                            </h4>
+                        </div>
+                        <p class="md:text-base md:leading-5 text-md leading-2 flex-grow text-gray-500">We’re clear about
+                            where we got our data, and when we got it, unlike the ‘black-box’ data of the traditional
+                            proprietary providers.</p>
+                    </div>
+                    <!-- /col -->
+                    <!-- col -->
+                    <div class="bg-white p-8 rounded-3xl relative flex flex-col gap-6 shadow-xxs">
+                        <div class="flex items-center gap-4">
+                            <img src="{% static './images/web.svg' %}" height="100%" width="100%"
+                                class="md:h-auto md:w-auto h-12 w-12" alt="web" />
+                            <h4 class="text-gray-700 font-semibold md:leading-7 text-4xl leading-5">
+                                Direct From Source
+                            </h4>
+                        </div>
+                        <p class="md:text-base md:leading-5 text-md leading-2 flex-grow text-gray-500">We only collect
+                            data from the official source itself, we do not use third party data providers to access
+                            this data, and we provide direct line of sight to the original source.</p>
+                    </div>
+                    <!-- /col -->
+                    <!-- col -->
+                    <div class="bg-white p-8 rounded-3xl relative flex flex-col gap-6 shadow-xxs">
+                        <div class="flex items-center gap-4">
+                            <img src="{% static './images/tech.svg' %}" height="100%" width="100%"
+                                class="md:h-auto md:w-auto h-12 w-12" alt="tech" />
+                            <h4 class="text-gray-700 font-semibold md:leading-7 text-4xl leading-5">
+                                Tech Driven
+                            </h4>
+                        </div>
+                        <p class="md:text-base md:leading-5 text-md leading-2 flex-grow text-gray-500">Combined with the
+                            above principles, our custom-built data collection, QA and reconciliation technology gives
+                            us a significant competitive advantage over legacy business information companies.</p>
+                    </div>
+                    <!-- /col -->
+                </div>
+                <!-- /row -->
+            </div>
+        </section>
+        <!--/unique data-->
+    </main>
+    {% endblock %}
+
+
+        <!--/footer-->
+        {% block footerscripts %}
+            {{ block.super }}
+            <script src="{% static './js/homeSuggestions.js'  %}"> </script>
+
+        {% endblock %}
+
+
+
+
+
+
+
+
+
+
+

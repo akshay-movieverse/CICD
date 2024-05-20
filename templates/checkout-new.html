@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load socialaccount %}
+
+{% block title %}CheckOut{% endblock %}
+
+
+  {% block css %}
+    <!-- Include the common scripts from base -->
+    {{ block.super }}
+
+  {% endblock %}
+
+  {% block headscripts %}
+    <!-- Include the common scripts from base -->
+    {{ block.super }}
+      <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  {% endblock %}
+
+  {% block header %}
+  {{ block.super }}
+  {% endblock %}
+
+
+  {% block content %}
+
+  <!--/header-->
+  <main>
+    <!-- checkout -->
+    <section class="bg-neutral-50 py-14 md:pb-32" id="checkout">
+      <div class="container container-xs-0">
+        <!-- row -->
+        <div class="grid grid-cols-1 sm:grid-cols-[auto_536px_auto]">
+          <div class="order-1 sm:col-start-2">
+            <div class="bg-white border border-gray-300 py-[14px] px-3 mb-3">
+              <h3 class="text-tiny leading-xl font-semibold text-gray-900">
+                Order Details
+                <span id="specs" class="font-normal text-gray-400">(0 reports from 0 companies)</span>
+              </h3>
+            </div>
+            <!-- cart -->
+            <div class="flex flex-col gap-y-4">
+              <!-- empty cart -->
+              <div class="hidden" id="emptyCart">
+                <div
+                  class="flex bg-white border border-gray-300 px-3 py-6 h-60 text-slate-800 font-light font-base items-center justify-center text-center">
+                  No company report selected
+                </div>
+              </div>
+              <!-- /empty cart -->
+              <!-- product -->
+
+              <!-- /product -->
+              <!-- product -->
+              
+                {% for cart_item in cart_items.values %}
+              <div id="product" class="bg-white company-detail border border-gray-300 pl-3 pr-6 pt-[18px] pb-[29px]">
+                          <div class="flex border-b border-gray-300 mb-4">
+                            <div class="mr-3">
+                              <h6>
+                                <a class="text-teal-600 text-base font-bold leading-xl mb-2 inline-block" href="#">
+                                  {{cart_item.company_name}}</a>
+                              </h6>
+                              <p class="text-slate-500 font-light mb-4 text-tiny leading-3">
+                                {{ site_variables.country_name |default_if_none:""}}
+                              </p>
+                            </div>
+                            <div class="ml-auto flex-shrink-0">
+                              <button onclick="addToCart(parseInt('{{cart_item.company_id}}'), '{{cart_item.company_name}}', this)" class="delete-list mr-2">
+                                <img src="{% static './images/bin.svg'  %}" alt="icon" />
+                              </button>
+                            </div>
+                          </div>
+
+
+                <!-- checkout detail -->
+                
+                <div class="flex gap-y-10 flex-col">
+                  {% if cart_item.flag  %}
+
+                      {% for business_profile in cart_item.selected_reports %}
+                        
+                            <div class="flex items-baseline">
+                              <div class="mr-3">
+                                <h6 class="text-neutral-800 text-base font-bold mb-2">
+                                  {{business_profile.ProfileName}}
+                                </h6>
+                                <p class="text-slate-500 font-light text-tiny leading-3">
+                                  {{business_profile.ProfileDelivery|default_if_none:"Delivery : Within 12 hours"}}
+                                </p>
+                              </div>
+                              <div class="ml-auto flex-shrink-0 text-neutral-800 text-base leading-xl font-bold mr-2">
+                                USD $ {{business_profile.ProfilePrice}}
+                              </div>
+                            </div>
+
+                        {% endfor %}
+
+
+              
+                  {% else  %}
+
+                    <div class="flex items-baseline">
+                        <div class="mr-3">
+                          <h6 class="text-neutral-800 text-base font-bold mb-2">
+                            {{default_business_profile.ProfileName}}
+                          </h6>
+                          <p class="text-slate-500 font-light text-tiny leading-3">
+                            {{default_business_profile.ProfileDelivery|default_if_none:""}}Delivery : Within 12 hours
+                          </p>
+                        </div>
+                        <div class="ml-auto flex-shrink-0 text-neutral-800 text-base leading-xl font-bold mr-2">
+                          USD $ {{default_business_profile.ProfilePrice}}
+                        </div>
+                    </div>
+
+                    
+                    {% endif %}
+
+                </div>
+                <!-- checkout detail -->
+              </div>
+              {% endfor %}
+              <!-- /product -->
+            </div>
+            <!-- /cart -->
+            <div class="flex justify-between py-4 pl-3 pr-6">
+              <div class="text-neutral-800 text-base font-bold">Total</div>
+              <div  id="total" class="text-neutral-800 text-base font-bold mr-2">US$ 000</div>
+            </div>
+          </div>
+          <div class="spacer-xs sm:col-start-2 order-2">
+            <button id="placeOrder"
+              class="mb-7 bg-teal-600 duration-200 hover:bg-teal-700 h-[63px] text-2xl md:text-5xl font-extrabold text-center text-white w-full">
+              PLACE ORDER
+            </button>
+            <button id="anotherReport" onclick="window.location.href='/'"
+              class="bg-white border uppercase border-orange-500 text-amber-500 font-extrabold duration-200 text-2xl md:text-5xl text-center h-[63px] w-full">
+              ADD ANOTHER REPORT
+            </button>
+          </div>
+        </div>
+        <!-- /row -->
+      </div>
+    </section>
+    <!-- /checkout -->
+  </main>
+  <!-- footer stars here -->
+  {% endblock %}
+
+
+  <!--/footer-->
+
+
+      {% block footerscripts %}
+      <!-- Include the common scripts from base -->
+      {{ block.super }}
+      <script src="{% static './js/detailSuggestions.js'  %}"> </script>
+      <script src="{% static './js/checkout.js'  %}"></script>
+      <script src="{% static './js/cart.js'  %}"></script>
+
+
+      <script>
+        // Add event listener to the payment button
+        document.getElementById("placeOrder").onclick = function (e) {
+            // Make AJAX request to the server to get Razorpay options
+
+          var csrftoken = getCookie('csrftoken');
+
+          $.ajax({
+              headers: {
+                  'X-CSRFToken': csrftoken  // Include CSRF token in headers
+              },
+                type: 'POST',
+                url: '/get-razorpay-options/',  // URL of the view function to get Razorpay options
+                data: {
+                    // If you need to send any data to the server, you can include it here
+                    // For example:
+                    // 'amount': 1000
+                },
+                success: function(response) {
+                    // Initialize Razorpay with the received options
+                    var rzp = new Razorpay(response);
+                    //console.error(response);
+                    // Open the Razorpay payment modal
+                    rzp.open();
+
+                    // Prevent the default button click action
+                    e.preventDefault();
+                },
+                error: function(xhr, status, error) {
+                    // Handle any errors that occur during the AJAX request
+                    console.error(xhr.responseText);
+                }
+            });
+        };
+    </script>
+        {% endblock %}

@@ -1,0 +1,230 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load socialaccount %}
+
+
+
+{% block title %}About Us{% endblock %}
+    {% block css %}
+        {{ block.super }}
+    {% endblock %}
+
+    {% block headscripts %}
+        {{ block.super }}
+    {% endblock %}
+
+
+{% block header %}
+{{ block.super }}
+{% endblock %}
+
+{% block content %}
+
+    <main>
+        <section class="bg-neutral-100 py-5 md:py-[34px]">
+            <div class="container container-xs-20 pt-20 md:pt-16 lg:pt-0">
+                <h2 class="text-center text-gray-600 text-6xl md:text-9xl font-bold mb-5 md:mb-[34px]">
+                    About us
+                </h2>
+                <div class="bg-white py-5 md:py-[34px] px-5 md:px-[50px] text-gray-600 text-center mb-6">
+                    <h3 class="text-4xl md:text-26 font-bold leading-7 md:leading-9 mb-[10px] md:mb-4">
+                        We help providing better transparency in business
+                    </h3>
+                    <p class="text-md md:text-tiny leading-5 md:leading-6 mb-5 md:mb-12">
+                        {{ site_variables.fulldomain |default_if_none:""}} is a privately-held canadian firm. Our database
+                        contains every company registered in various countries, cross
+                        checked and verified. {{ site_variables.fulldomain |default_if_none:""}} has helped clients and
+                        partners grow and thrive through the power of data, analytics, and
+                        data-driven solutions. Our more than 6 employees are dedicated to
+                        this unique purpose, and we are guided by important values that
+                        make us the established leader in business decisioning data and
+                        analytical insights. Our data & insights are valuable at all
+                        phases of a business lifecycle and whatever the economic
+                        environment.
+                    </p>
+                    <h3 class="text-4xl md:text-26 font-bold leading-7 md:leading-9 mb-[10px] md:mb-4">
+                        Know who you do business with
+                    </h3>
+                    <p class="text-md md:text-tiny leading-5 md:leading-6">
+                        Before entering into any major business transaction you want to be
+                        sure who you do business with. However, getting reliable
+                        information about private companies in {{ site_variables.country_name |default_if_none:""}} can be difficult.
+                        {{ site_variables.halfdomain |default_if_none:""}} was born from our own need to quickly acquire
+                        information about shareholders, directors, commissioners of
+                        companies we or our clients entered into negotiations.
+                    </p>
+                </div>
+                <div class="bg-white py-5 md:py-[30px] px-5 md:px-10 text-gray-600 mb-[25px]">
+                    <h3 class="text-4xl md:text-26 font-bold leading-7 md:leading-9 text-center mb-5 md:mb-[35px]">
+                        Know various company details
+                    </h3>
+                    <div
+                        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-[30px] xl:gap-x-[73px] gap-y-5 md:gap-y-[30px] lg:gap-y-0 mb-[10px] md:mb-5">
+                        <div class="col-box">
+                            <img class="mb-[18px]" src="{% static './images/x-ray.png'  %}" alt="thumb" />
+                            <h4 class="text-base md:text-2xl font-bold mb-2">
+                                Due Deligence
+                            </h4>
+                            <p class="text-md md:text-base leading-5 md:leading-6 text-neutral-600">
+                                To establish its assets and liabilities and evaluate its
+                                commercial potential.
+                            </p>
+                        </div>
+                        <div class="col-box">
+                            <img class="mb-[18px]" src="{% static './images/business-credit-report.png'  %}" alt="thumb" />
+                            <h4 class="text-base md:text-2xl font-bold mb-2">
+                                Credit Report
+                            </h4>
+                            <p class="text-md md:text-base leading-5 md:leading-6 text-neutral-600">
+                                Compilation of Loan, credit from lenders into one credit
+                                report.
+                            </p>
+                        </div>
+                        <div class="col-box">
+                            <img class="mb-[18px]" src="{% static './images/investment.png'  %}" alt="thumb" />
+                            <h4 class="text-base md:text-2xl font-bold mb-2">
+                                Investment Decisions
+                            </h4>
+                            <p class="text-md md:text-base leading-5 md:leading-6 text-neutral-600">
+                                Based on Changes in capital and investments infusion,
+                                settlement, arbitrtions etc.
+                            </p>
+                        </div>
+                        <div class="col-box">
+                            <img class="mb-[18px]" src="{% static './images/history.png'  %}" alt="thumb" />
+                            <h4 class="text-base md:text-2xl font-bold mb-2">
+                                Company History
+                            </h4>
+                            <p class="text-md md:text-base leading-5 md:leading-6 text-neutral-600">
+                                The detailed view of changes in the company's deed in its
+                                history so far.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white py-5 md:py-[30px] px-5 md:px-[40px] text-gray-600 mb-[25px]">
+                    <h3 class="text-4xl md:text-26 font-bold leading-7 md:leading-9 text-center mb-5 md:mb-[35px]">
+                        How it works
+                    </h3>
+                    <div
+                        class="grid grid-cols-1 lg:grid-cols-3 gap-x-[30px] lg:gap-x-[80px] xl:gap-x-[99px] gap-y-[90px] lg:gap-y-0 mb-[10px] md:mb-5">
+                        <div
+                            class="flex flex-col items-center text-center shadow-box px-5 py-[30px] border border-neutral-200 relative">
+                            <img class="mb-[25px]" src="{% static './images/repo1.png'  %}" alt="thumb" />
+                            <h4 class="text-base md:text-2xl font-bold mb-2">
+                                1. Find Company on Home page
+                            </h4>
+                            <p class="text-md md:text-base leading-5 md:leading-6 text-neutral-600">
+                                Find the companies on home page you are interested in and add
+                                them to the cart
+                            </p>
+                            <img class="absolute top-auto lg:top-2/4 bottom-[-61px] rotate-90 lg:rotate-0 lg:bottom-auto lg:right-[-70px] xl:right-[-80px] md:translate-y-0 lg:translate-y-[-50%]"
+                                src="{% static './images/arrow_right.svg'  %}" alt="icon" />
+                        </div>
+                        <div
+                            class="flex flex-col items-center text-center shadow-box p-5 border border-neutral-200 relative">
+                            <img class="mb-[25px]" src="{% static './images/repo2.png'  %}" alt="thumb" />
+                            <h4 class="text-base md:text-2xl font-bold mb-2">
+                                2. Place an order
+                            </h4>
+                            <p class="text-md md:text-base leading-5 md:leading-6 text-neutral-600">
+                                Check all company details and delivery time (depends on
+                                Country). Complete the payment
+                            </p>
+                            <img class="absolute top-auto lg:top-2/4 bottom-[-61px] rotate-90 lg:rotate-0 lg:bottom-auto lg:right-[-70px] xl:right-[-80px] md:translate-y-0 lg:translate-y-[-50%]"
+                                src="{% static './images/arrow_right.svg'  %}" alt="icon" />
+                        </div>
+                        <div class="flex flex-col items-center text-center shadow-box p-5 border border-neutral-200;">
+                            <img class="mb-[25px]" src="{% static './images/repo3.png'  %}" alt="thumb" />
+                            <h4 class="text-base md:text-2xl font-bold mb-2">
+                                3. Collect report by email
+                            </h4>
+                            <p class="text-md md:text-base leading-5 md:leading-6 text-neutral-600">
+                                We will collect the data and email you within mentioned
+                                timeframe.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white py-5 md:py-[34px] px-5 md:px-[50px] text-gray-600 text-center mb-[25px]">
+                    <h3 class="text-4xl md:text-26 font-bold leading-7 md:leading-9 mb-[15px]">
+                        What if I can’t find a company ?
+                    </h3>
+                    <p class="text-md md:text-tiny leading-5 md:leading-6">
+                        The most common reason is that the company is either not
+                        registered, uses a different name or was registered very recently
+                        (before our last indexing). However, in some rare cases there
+                        might be a technical glitch that prevents the company from showing
+                        up in the search results. Reach out to us at
+                        <a class="text-black underline"
+                            href='mailto:{{ site_variables.email |default_if_none:"" }}'>{{ site_variables.email |default_if_none:"" }}</a>
+                        and we will try to find the company for you manually
+                    </p>
+                </div>
+                <div
+                    class="bg-white py-5 md:py-[34px] px-5 md:px-[50px] text-gray-600 mb-[125px] flex flex-col lg:flex-row">
+                    <div class="">
+                        <h3
+                            class="text-4xl md:text-26 font-bold leading-7 md:leading-9 mb-[10px] md:mb-5 text-center md:text-left">
+                            More about {{ site_variables.fulldomain |default_if_none:""}}
+                        </h3>
+                        <p
+                            class="text-md md:text-tiny leading-5 md:leading-6 mb-[10px] md:mb-5 text-center md:text-left">
+                            {{ site_variables.halfdomain |default_if_none:""}} was formed out of our own frustrations in
+                            navigating the challenging task of knowing about company
+                            details, legal and regulatory landscapes, partnerships and
+                            association with firms for mutual benefits and for due deigence
+                            details in advance. In the past we have been frustrated by the
+                            opaque, time-consuming, and often expensive process of trying to
+                            find out who we do business with. We believe that these kind of
+                            details must be openly available and transparent.
+                        </p>
+                        <p
+                            class="text-md md:text-tiny leading-5 md:leading-6 mb-[10px] md:mb-5 text-center md:text-left">
+                            Forward thinking organizations around the world trust
+                            {{ site_variables.halfdomain |default_if_none:""}} for decision making or KYC data with best
+                            possible reporting insights available. We are differentiated by
+                            the scale, depth, diversity and accuracy of our constantly
+                            expanding business data.
+                        </p>
+                        <p
+                            class="text-md md:text-tiny leading-5 md:leading-6 mb-[10px] md:mb-5 text-center md:text-left">
+                            We are committed to integrity, transparency, and efficiency in
+                            our business. We will tell you to the best of our knowledge what
+                            report consists, cross checked and verified and we guarantee
+                            fair and transparent pricing.
+                        </p>
+                    </div>
+                    <div class="relative grow-0 shrink-0 basis-[400px] xl:basis-auto ml-0 lg:ml-[90px] mt-5 lg:mt-0">
+                        <img class="w-full" src="{% static './images/facts.png'  %}" alt="image" />
+                        <div
+                            class="bg-white border border-neutral-300 absolute pl-5 py-5 pr-[57px] rounded-[6px] shadow-qoute w-[90%] xl:w-[427px] inset-x-1/2 translate-x-[-50%] bottom-[-110px] md:bottom-[30px] xl:bottom-[-100px]">
+                            <img class="absolute right-[18px] top-[13px]" src="{% static './images/carbon_quotes.svg'  %}"
+                                alt="icon" />
+                            <p class="text-md leading-7 text-gray-900 mb-[10px]">
+                                I think when it comes to support and service, no one can
+                                compete with the team of {{ site_variables.fulldomain |default_if_none:""}}, I have ordered
+                                reports multiple times and have never always received best in
+                                class delivery and support.
+                            </p>
+                            <h5 class="font-light text-md">- Hank Chang ({{ site_variables.country_name |default_if_none:""}})</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    {% endblock %}
+    <!-- footer stars here -->
+
+    <!--/footer-->
+
+    {% block footerscripts %}
+    {{ block.super }}
+
+        <script src="{% static './js/detailSuggestions.js'  %}"> </script>
+
+
+{% endblock %}
+

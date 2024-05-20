@@ -1,0 +1,659 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load socialaccount %}
+
+{% block title %}{{ title }} - {{ site_variables.country_name |default_if_none:""}} - Corporate Profile and Financial Overview - {{ site_variables.fulldomain |default_if_none:""}}{% endblock %}
+
+
+{% block additional_meta_tags %}
+<meta name="description" content="Explore comprehensive incorporation and financial information for {{ title }}, {{ site_variables.country_name |default_if_none:''}}. Registered under Business Number {{company.RegistrationNumber}}, the company details include shareholder data, capital structure, and key financial reports. {{ site_variables.fulldomain |default_if_none:''}}">
+{% endblock %}
+
+
+
+    {% block css %}
+    <!-- Include the common scripts from base -->
+    {{ block.super }}
+    <!-- Additional scripts specific to Page 2 -->
+    <link rel="stylesheet" media="all" href="{% static './css/ads.css'  %}" />
+    {% endblock %}
+
+
+    {% block headscripts %}
+    <!-- Include the common scripts from base -->
+    {{ block.super }}
+    {% endblock %}
+
+
+
+    {% block header %}
+    {{ block.super }}
+    {% endblock %}
+
+{% block content %}
+
+    <!--/header-->
+    <main>
+        <!--breadcrumb-->
+        <section class="md:py-6 md:container xl:detail-page px-4 md:px-0 detail-page">
+            <ul class="text-base leading-4 font-light gap-x-3 hidden lg:flex">
+                <li>
+                    <a class="text-teal-600" href="{% url 'company-home' %}">Basic details of Registered companies
+                        <span class="ml-2 text-neutral-800">> </span></a>
+                </li>
+                <li>
+                    <a class="text-neutral-800" href="{% url 'company-home' %}">{{ site_variables.country_name |default_if_none:""}}</a>
+                </li>
+            </ul>
+        </section>
+        <!-- /breadcrumb -->
+        <!-- reports -->
+        <section class="md:container xl:detail-page pb-3 lg:pt-0 pt-12">
+            <div class="md:px-0text-teal-800 font-extrabold mb-5 lg:mb-0">
+                <h2 class="text-4xl leading-5 md:text-9xl md:leading-9 border-b border-b-black pb-6">
+                    {{company.RegisteredName}}
+                    <span class="font-light">- {{ site_variables.country_name |default_if_none:""}}</span>
+                </h2>
+            </div>
+            <!-- row -->
+            <div
+                class="flex x::grid xl:grid-cols-[540px_540px] gap-x-10 xl:gap-x-[80px] xxl:gap-x-[120px] md:flex-row flex-col">
+                <!-- col -->
+                <div class="px-4 md:px-0 md:w-2/4 xl:w-full w-full md:mt-10">
+                    <!-- col -->
+                    <div class="grid gap-y-9 border-b border-b-black pb-7 mb-8">
+                        <div
+                            class="grid grid-cols-2 gap-x-2 md:gap-x-12 xl:gap-x-5 xl:grid-cols-[180px_320px] gap-y-3 md:gap-y-0">
+                            <div class="text-slate-600 text-tiny leading-4 font-normal">
+                                Registered Name
+                            </div>
+                            <div class="font-medium text-zinc-900 text-tiny leading-4">
+                                {{company.RegisteredName}}
+                            </div>
+                        </div>
+                        <div
+                            class="grid grid-cols-2 gap-x-2 md:gap-x-12 xl:grid-cols-[180px_320px] xl:gap-x-5 gap-y-3 md:gap-y-0">
+                            <div class="text-slate-600 text-tiny leading-4 font-normal">
+                                Registration Number
+                            </div>
+                            <div class="font-medium text-zinc-900 text-tiny leading-4">
+                                {{company.RegistrationNumber}}
+                            </div>
+                        </div>
+                        {% if company.UENIssueDate != "N/A" %}
+                        <div
+                            class="grid grid-cols-2 gap-x-2 md:gap-x-12 xl:grid-cols-[180px_320px] xl:gap-x-5 gap-y-3 md:gap-y-0">
+                            <div class="text-slate-600 text-tiny leading-4 font-normal">
+                                UEN Issue Date
+                            </div>
+                            <div class="font-medium text-zinc-900 text-tiny leading-4">
+                                {{company.UENIssueDate}}
+                                <!-- <ul>
+                                    <li>03.115.362/ 0001-16 - 03 115 3620 01 1 603.1</li>
+                                    <li>15.36 2 /000 1-16 - 031153 62 0003.115.362 /0</li>
+                                    <li>001-16 - 03 kjhs lasd asljdlalda ls</li>
+                                </ul> -->
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% if company.UENStatus != "N/A" %}
+                        <div
+                            class="grid grid-cols-2 gap-x-2 md:gap-x-12 xl:grid-cols-[180px_320px] xl:gap-x-5 gap-y-3 md:gap-y-0">
+                            <div class="text-slate-600 text-tiny leading-4 font-normal">
+                                UEN Status
+                            </div>
+                            <div class="font-medium text-zinc-900 text-tiny leading-4">
+                                {{company.UENStatus}}
+                            </div>
+                        </div>
+                        {% endif %}
+                        <!-- {% if company.LegalEntityType != "N/A" %}
+                        <div
+                            class="grid grid-cols-2 gap-x-2 md:gap-x-12 xl:grid-cols-[180px_320px] xl:gap-x-5 gap-y-3 md:gap-y-0">
+                            <div class="text-slate-600 text-tiny leading-4 font-normal">
+                                Legal Entity Type
+                            </div>
+                            <div class="font-medium text-zinc-900 text-tiny leading-4">
+                                {{company.LegalEntityType}}
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% if company.LegalEntityTypeSuffix != "N/A" %}
+                        <div
+                            class="grid grid-cols-2 gap-x-2 md:gap-x-12 xl:grid-cols-[180px_320px] xl:gap-x-5 gap-y-3 md:gap-y-0">
+                            <div class="text-slate-600 text-tiny leading-4 font-normal">
+                                Legal Entity Type Suffix
+                            </div>
+                            <div class="font-medium text-zinc-900 text-tiny leading-4">
+                                {{company.LegalEntityTypeSuffix}}
+                            </div>
+                        </div>
+                        {% endif %} -->
+                        {% if company.Town != "N/A" %}
+                        <div
+                            class="grid grid-cols-2 gap-x-2 md:gap-x-12 xl:grid-cols-[180px_320px] xl:gap-x-5 gap-y-3 md:gap-y-0">
+                            <div class="text-slate-600 text-tiny leading-4 font-normal">
+                                Town
+                            </div>
+                            <div class="font-medium text-zinc-900 text-tiny leading-4">
+                                {{company.Town}}
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <!--/col-->
+                    <!-- col -->
+
+
+                    <div class="grid gap-y-6 border-b border-b-black pb-7 mb-8">
+                        <h6 class="font-bold">Benefits of Buying Incorporation Reports</h6>
+                        <ul class="text-slate-600 list-disc pl-5">
+                            <li>The Due diligence report provides a trustworthy, reliable, comprehensive analysis of counterparty.</li>
+                            <li>Collection - one-page credit judgment, an easy-to-read summary.</li>
+                            <li>Shareholders, Ownership structure, Directors, CEOs, beneficial control, management and affiliations.</li>
+                            <li>Trades, Operations, and Market Analysis.</li>
+                            <li>Financial stability.</li>
+                            <li>Market references and reputation.</li>
+                            <li>Credit score or rating and recommended credit exposure.</li>
+                        </ul>
+                    </div>
+
+
+                    <!-- <div class="grid gap-y-9 border-b border-b-black pb-7 mb-8">
+                        <div
+                            class="grid grid-cols-2 gap-x-2 md:gap-x-12 xl:grid-cols-[180px_320px] xl:gap-x-5 gap-y-3 md:gap-y-0">
+                            <div class="text-slate-600 text-tiny leading-4 font-normal">
+                                Last visit:
+                            </div>
+                            <div class="font-medium text-zinc-900 text-tiny leading-4">
+                                {{last_visit}}
+                            </div>
+                        </div>
+                        <div
+                            class="grid grid-cols-2 gap-x-2 md:gap-x-12 xl:grid-cols-[180px_320px] xl:gap-x-5 gap-y-3 md:gap-y-0">
+                            <div class="text-slate-600 text-tiny leading-4 font-normal">
+                                Visitors (Since 1 May, 2024):
+                            </div>
+                            <div class="font-medium text-zinc-900 text-tiny leading-4">
+                                {{total_visitors}}
+                                <ul>
+                                    <li>03.115.362/0001-16</li>
+                                    <li>03.115.362/0001-16</li>
+                                    <li>03.115.362/0001-16</li>
+                                    <li>03.115.362/0001-16</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div> -->
+                    <!-- /col -->
+                    <!-- col -->
+
+                    <!-- <form class="grid gap-y-9 border-b border-b-black  pb-10 mb-8 text-tiny"
+                        name="submitAddress" id="submitAddress">
+                        <div
+                            class="grid md:grid-cols-5 md:gap-x-12 xl:grid-cols-[180px_320px] xl:gap-x-5 gap-x-0 gap-y-3 md:gap-y-0">
+                            <label for="businessWhatsApp"
+                                class="md:col-span-2 xl:col-span-1 text-slate-600 leading-2 font-normal">
+                                Business WhatsApp number
+                            </label>
+                            <div class="md:col-span-3 xl:col-span-1 leading-2">
+                                <p class="hidden input-text font-medium text-zinc-900 text-tiny leading-4"></p>
+                                <a href="javascript:void(0)"
+                                    class="show-field underline text-base leading-sm text-blue-600 font-semibold">Add</a>
+                                <input type="text" name="businessWhatsApp" id="bussinessWhatsApp"
+                                    aria-labelledby="businessWhatsApp"
+                                    class="text-md detail-field flex-shrink-0 w-4/5 lg:max-w-[170px] border border-teal-600 focus:outline-none px-3 py-0.5 hidden">
+                                <div class="text-xs leading-2 text-red-500 error hidden">Please fill correct value</div>
+                            </div>
+                        </div>
+                        <div
+                            class="grid md:grid-cols-5 xl:grid-cols-[180px_320px] xl:gap-x-5 md:gap-x-12 gap-x-0 gap-y-3 md:gap-y-0">
+                            <label class="md:col-span-2 xl:col-span-1 text-slate-600 leading-2 font-normal"
+                                for="productsAndServices">
+                                Products & Services
+                            </label>
+                            <div class="md:col-span-3 xl:col-span-1 leading-2 flex items-baseline gap-x-3">
+                                <p class="hidden input-text font-medium text-zinc-900 text-tiny leading-4"></p>
+                                <a href="javascript:void(0)"
+                                    class="show-field underline text-base leading-sm text-blue-600 font-semibold">Add</a>
+                                <div class="w-4/5 lg:max-w-[170px] flex-shrink-0">
+                                    <input type="text" name="productsAndServices" aria-labelledby="productsAndServices"
+                                        id="productsAndServices"
+                                        class="detail-field border w-full text-md border-teal-600 focus:outline-none px-3 py-0.5 hidden">
+                                    <div class="text-xs leading-2 hidden text-red-500 error">Please fill correct value
+                                    </div>
+                                </div>
+                                <div class="w-1/5 detail-field hidden mt-1">
+                                    <button type="button"
+                                        class="border leading-2 flex items-center justify-center text-teal-600 border-teal-600 font-extralight rounded-full h-5 w-5">+</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="grid md:grid-cols-5 xl:grid-cols-[180px_320px] xl:gap-x-5 md:gap-x-12 gap-x-0 gap-y-3 md:gap-y-0">
+                            <label class="md:col-span-2 xl:col-span-1 text-slate-600 leading-2 font-normal"
+                                for="cityOrLocation">
+                                City And Location
+                            </label>
+                            <div class="md:col-span-3 xl:col-span-1 leading-2 text-md">
+                                <p class="hidden input-text font-medium text-zinc-900 text-tiny leading-4"></p>
+                                <a href="javascript:void(0)"
+                                    class="show-field underline text-base leading-sm text-blue-600 font-semibold">Add</a>
+                                <input id="cityOrLocation" name="cityOrLocation" type="text"
+                                    aria-labelledby="cityOrLocation"
+                                    class="detail-field border lg:w-11/12 w-full flex-shrink-0 text-md border-teal-600 focus:outline-none px-3 py-0.5 hidden" />
+                                <div class="text-xs hidden leading-2 text-red-500 error">Please fill correct value</div>
+                                <button type="submit"
+                                    class="text-white save-btn bg-teal-600 font-medium py-2 px-9 hidden mt-5">Save</button>
+                                <button type="button" class="text-tiny leading-3 ml-8 text-gray-400 hidden"
+                                    id="hideDetailField">Cancel</button>
+                            </div>
+                        </div>
+                    </form> -->
+
+
+
+
+
+                    <!-- /col -->
+                    <div class="grid gap-y-9 border-t md:border-t-0 pt-10 md:pt-0 border-t-black md:border-b-0 pb-10 text-tiny mb-8 md:col-start-1 order-5 mx-4 md:mx-0" id="matchingCompanies">
+                        <h6 class="font-bold">Matching company names</h6>
+                            {% for company in matching_companies %}
+                               
+                                    <div class="grid grid-cols-[1fr_100px] gap-x-3 items-center xl:gap-x-5 gap-y-3 md:gap-y-0">
+                                        <div class="text-slate-600 leading-2 font-normal">
+                                            <a target="_blank" href="{{company.url}}">{{company.label}}</a>
+                                        </div>
+                                    {% if company.id|stringformat:"s" not in cart_items %}
+                                        <div class="text-right" >
+                                            <button onclick="addToCart(parseInt('{{company.id}}'), '{{company.label}}', this)" type="button" data-cart-id={{company.id}}
+                                            style="padding: 1px 7px;" 
+                                            class="leading-6 text-teal-600 border-teal-600 border-2 hover:text-white rounded bg-white hover:bg-teal-600 duration-200 text-base font-bold">
+                                            Add to Cart</button>
+                                        </div>
+                                    {% else %}
+                                    <div class="text-right">
+                                        <button onclick="addToCart(parseInt('{{company.id}}'), '{{company.label}}', this)" type="button" data-cart-id={{company.id}}
+                                        style="padding: 1px 7px;" 
+                                        class="leading-6 text-teal-600 border-teal-600 border-2 hover:text-white rounded bg-white hover:bg-teal-600 duration-200 text-base font-bold">
+                                        Added</button>
+                                    </div>
+                                    {% endif %}
+                                    </div>
+
+
+                            {% endfor %}
+                        </div>
+
+
+
+                </div>
+                <!-- /col -->
+                <!-- col -->
+                <div class="md:w-2/4 w-full md:mt-7 xl:w-full">
+                    <h3 class="text-slate-900 pb-5 md:text-7xl md:leading-8 text-2xl leading-3 font-bold px-4 md:px-0">
+                        Buy Company Reports
+                    </h3>
+                    <p class="leading-xl font-semibold pb-4 text-base px-4 md:px-0">
+                        Official and Latest Government’s Records
+                    </p>
+                    <p class="leading-xl font-normal pb-4 text-base px-4 md:px-0 text-gray-600">
+                        Standard delivery:
+                        <span class="font-bold text-slate-900">1 Working day
+                            <a data-modal="deliveryReport" href="javascript:void(0)"><img height="19" width="19"
+                                    class="inline-block ml-1" src="{% static './images/info-icon.svg'  %}"
+                                    alt="info" /></a></span>
+                    </p>
+                    <div class="mb-5">
+                        <a data-modal="sampleReport"
+                            class="text-base leading-xl font-semibold underline text-blue-600 block px-4 md:px-0"
+                            href="javascript:void(0)">View Sample Reports</a>
+                    </div>
+                    <form class="pb-16"id="reportsForm" action="{% url 'check-out' %}" method="post">
+                        {% csrf_token %}
+                        <div class="border border-indigo-200 divide-y">
+
+                            {% if company.UENStatus == "Registered" %}
+                                    {% for business_profile in business_profiles %}
+                                        
+                                            <!-- input-group -->
+                                            <label for="index-{{business_profile.id}}" data-report-id="{{business_profile.id}}" class="flex items-start px-3 py-4 border border-t-0 border-neutral-300 relative z-0 cursor-pointer">
+                                                <input data-price="{{business_profile.ProfilePrice}}" value="{{business_profile.id}}" {% if forloop.first %}checked=""{% endif %} id="index-{{business_profile.id}}" name="reports[]" type="checkbox" class="accent-teal-600 h-5 w-5 peer">
+                                                <div class="absolute inset-0 -z-10 peer-checked:bg-teal-100 transition"></div>
+                                                <div class="flex flex-col ml-2 flex-1 gap-y-1.5 -mt-0.5">
+                                                    <div class="font-bold text-neutral-800">{{business_profile.ProfileName}}</div>
+                                                    <div class="font-medium text-yellow-600">{{business_profile.ProfileDelivery|default_if_none:""}}</div>
+                                                    <div class="text-gray-800 text-tiny">{{business_profile.ProfileDescription|default_if_none:""}}</div>
+                                                </div>
+                                                <div class="flex-shrink-0 ml-6">
+                                                <div class="font-bold text-neutral-800">USD $ <span>{{business_profile.ProfilePrice}}</span></div>
+                                                </div>
+                                            </label>
+
+                                    {% endfor %}
+                            {% else %}
+                            <label for="index-{{business_profiles.0.id}}" data-report-id="{{business_profiles.0.id}}" class="flex items-start px-3 py-4 border border-t-0 border-neutral-300 relative z-0 cursor-pointer">
+                                <input data-price="{{business_profiles.0.ProfilePrice}}" value="{{business_profiles.0.id}}" checked="" id="index-{{business_profiles.0.id}}" name="reports[]" type="checkbox" class="accent-teal-600 h-5 w-5 peer">
+                                <div class="absolute inset-0 -z-10 peer-checked:bg-teal-100 transition"></div>
+                                <div class="flex flex-col ml-2 flex-1 gap-y-1.5 -mt-0.5">
+                                    <div class="font-bold text-neutral-800">{{business_profiles.0.ProfileName}}</div>
+                                    <div class="font-medium text-yellow-600">{{business_profiles.0.ProfileDelivery|default_if_none:""}}</div>
+                                    <div class="text-gray-800 text-tiny">{{business_profiles.0.ProfileDescription|default_if_none:""}}</div>
+                                </div>
+                                <div class="flex-shrink-0 ml-6">
+                                <div class="font-bold text-neutral-800">USD $ <span>{{business_profiles.0.ProfilePrice}}</span></div>
+                                </div>
+                            </label>
+
+                                
+                            {% endif %}
+                                <!-- <label for="index-1" data-report-id="8" class="flex items-start px-3 py-4 border border-t-0 border-neutral-300 relative z-0 cursor-pointer">
+                                <input data-price="160" value="8" id="index-1" name="reports[]" type="checkbox" class="accent-teal-600 h-5 w-5 peer">
+                                <div class="absolute inset-0 -z-10 peer-checked:bg-teal-100 transition"></div>
+                                <div class="flex flex-col ml-2 flex-1 gap-y-1.5 -mt-0.5">
+                                <div class="font-bold text-neutral-800">Compliance and Financial Report</div>
+                                <div class="font-medium text-yellow-600"></div>
+                                
+                                </div>
+                                <div class="flex-shrink-0 ml-6">
+                                <div class="font-bold text-neutral-800">USD $ <span>160</span></div>
+                                </div>
+                                </label>
+                                <label for="index-2" data-report-id="32" class="flex items-start px-3 py-4 border border-t-0 border-neutral-300 relative z-0 cursor-pointer">
+                                <input data-price="60" value="32" id="index-2" name="reports[]" type="checkbox" class="accent-teal-600 h-5 w-5 peer">
+                                <div class="absolute inset-0 -z-10 peer-checked:bg-teal-100 transition"></div>
+                                <div class="flex flex-col ml-2 flex-1 gap-y-1.5 -mt-0.5">
+                                <div class="font-bold text-neutral-800">Business Profile with Certificate of Production</div>
+                                <div class="font-medium text-yellow-600"></div>
+                                
+                                </div>
+                                <div class="flex-shrink-0 ml-6">
+                                <div class="font-bold text-neutral-800">USD $ <span>60</span></div>
+                                </div>
+                                </label>
+                                <label for="index-3" data-report-id="33" class="flex items-start px-3 py-4 border border-t-0 border-neutral-300 relative z-0 cursor-pointer">
+                                <input data-price="50" value="33" id="index-3" name="reports[]" type="checkbox" class="accent-teal-600 h-5 w-5 peer">
+                                <div class="absolute inset-0 -z-10 peer-checked:bg-teal-100 transition"></div>
+                                <div class="flex flex-col ml-2 flex-1 gap-y-1.5 -mt-0.5">
+                                <div class="font-bold text-neutral-800">Certificate of Good Standing</div>
+                                <div class="font-medium text-yellow-600"></div>
+                                
+                                </div>
+                                <div class="flex-shrink-0 ml-6">
+                                <div class="font-bold text-neutral-800">USD $ <span>50</span></div>
+                                </div>
+                                </label>
+                                <label for="index-4" data-report-id="34" class="flex items-start px-3 py-4 border border-t-0 border-neutral-300 relative z-0 cursor-pointer">
+                                <input data-price="40" value="34" id="index-4" name="reports[]" type="checkbox" class="accent-teal-600 h-5 w-5 peer">
+                                <div class="absolute inset-0 -z-10 peer-checked:bg-teal-100 transition"></div>
+                                <div class="flex flex-col ml-2 flex-1 gap-y-1.5 -mt-0.5">
+                                <div class="font-bold text-neutral-800">List of Lodgements</div>
+                                <div class="font-medium text-yellow-600"></div>
+                                
+                                </div>
+                                <div class="flex-shrink-0 ml-6">
+                                <div class="font-bold text-neutral-800">USD $ <span>40</span></div>
+                                </div>
+                                </label>
+                                <label for="index-5" data-report-id="35" class="flex items-start px-3 py-4 border border-t-0 border-neutral-300 relative z-0 cursor-pointer">
+                                <input data-price="80" value="35" id="index-5" name="reports[]" type="checkbox" class="accent-teal-600 h-5 w-5 peer">
+                                <div class="absolute inset-0 -z-10 peer-checked:bg-teal-100 transition"></div>
+                                <div class="flex flex-col ml-2 flex-1 gap-y-1.5 -mt-0.5">
+                                <div class="font-bold text-neutral-800">Management's Profile</div>
+                                <div class="font-medium text-yellow-600"></div>
+                                
+                                </div>
+                                <div class="flex-shrink-0 ml-6">
+                                <div class="font-bold text-neutral-800">USD $ <span>80</span></div>
+                                </div>
+                                </label>
+                                <label for="index-6" data-report-id="67" class="flex items-start px-3 py-4 border border-t-0 border-neutral-300 relative z-0 cursor-pointer">
+                                <input data-price="80" value="67" id="index-6" name="reports[]" type="checkbox" class="accent-teal-600 h-5 w-5 peer">
+                                <div class="absolute inset-0 -z-10 peer-checked:bg-teal-100 transition"></div>
+                                <div class="flex flex-col ml-2 flex-1 gap-y-1.5 -mt-0.5">
+                                <div class="font-bold text-neutral-800">Individual's Involvement (Any company)</div>
+                                <div class="font-medium text-yellow-600"></div>
+                                
+                                </div>
+                                <div class="flex-shrink-0 ml-6">
+                                <div class="font-bold text-neutral-800">USD $ <span>80</span></div>
+                                </div>
+                                </label> -->
+
+
+                                <div class="flex items-start px-3 py-4 border border-t-0 border-neutral-300 justify-between">
+                                <div class="text-amber-700 font-bold ml-7">Total</div>
+                                <div class="text-amber-700 font-bold">USD $ <span id="final_total_div">50</span></div>
+                                </div>
+                                <input type="hidden" name="report_type" value="company">
+                                <input type="hidden" name="country" value="{{ site_variables.country_name |default_if_none:''}}">
+                                <input type="hidden" name="company_id" value="{{company.id}}">
+                                <input type="hidden" name="company_name" value="{{company.RegisteredName}}">
+                                <button onclick="shwoTimeOutLoader()" class="bg-teal-600 duration-200 hover:bg-teal-700 h-16 text-2xl md:text-4xl font-bold text-center text-white w-full">BUY REPORTS</button>
+                                </form>
+
+
+
+
+                    <div class="text-center mb-6" style="display: flex;align-items: center;justify-content: center;padding-top: 25px;">
+                        <a data-modal="sampleReport" class="text-base leading-xl font-semibold underline text-blue-600 block px-4 md:px-0" href="javascript:void(0)" style="display: flex; align-items: center;">View Sample Reports</a>
+                    </div>
+
+                    <p class="mb-4 text-center text-slate-500 text-md leading-3 font-light px-4 md:px-0">
+                        We never disclose buyer’s information.
+                    </p>
+                    <p class="mb-4 text-center text-slate-500 text-md md:leading-3 leading-4 font-light px-4 md:px-0">
+                        Your payment is completely safe and refundable at any time you
+                        <br class="hidden md:block" />are not satisfied with the services
+                        or delivery. <a href="{% url 'refund-policy' %}" class="underline">Refund Policy</a>
+                    </p>
+                    
+                </div>
+
+
+
+
+
+<!-- <div class="md:w-4 w-full md:mt-7 xl:w-full">
+
+                <div id="R1" class="addBox" > R1 540x 80 </div>
+            
+
+                <div id="R2" class="addBox">R1 540x 80</div>
+
+                <div style="display: flex;   
+                        flex-direction: row;                
+
+                        height: 80px;
+                        margin-bottom: 25px;">
+                        
+                    <div id="R31" class="addBox" style="flex: 1 1 385px; height:80px; margin-right:11px">R1 385x 80</div>
+                    <div id="R32" class="addBox" style="flex: 0 0 auto; max-width: 144px; width: 100%; max-width: 144px; height:80px ">R1 144x 80</div>
+
+                </div>
+
+                <div style="display: flex;   
+                        flex-direction: row;                
+
+                        height: 80px;
+                        ">
+                        
+                    <div id="R31" class="addBox" style="width: 100%; max-width: 130px; height:80px; margin-right:11px">R1 130x 80</div>
+                    <div id="R32" class="addBox" style="width: 100%; max-width: 400px; height:80px ">R1 400x 80</div>
+
+                </div>
+
+</div> -->
+
+
+
+
+                <!-- /col -->
+            </div>
+            <!-- /row -->
+        </section>
+        <!-- /reports -->
+        <!-- <section class="md:container xl:detail-page pb-12 lg:pt-0 pt-12">
+            <div class="addBox md:px-0text-teal-800 font-extrabold mb-5 lg:mb-0" style="max-width: 1191px;border:1px solid black;height: 48px;">
+            M1 1191 x 48
+            </div>
+            <div class="flex x::grid xl:grid-cols-[540px_540px] gap-x-5 md:flex-row flex-col" style="
+    max-width: 1191px;
+">
+                <div style="max-width: 623px;display: flex;border:1px solid black;height: 398px;" class="addBox px-2 md:px-0 md:w-2/4 xl:w-full w-full md:mt-3">
+                L1 623 x 398
+                </div>
+                <div class="md:w-2/4 w-full md:mt-3 xl:w-full" style="
+    max-width: 540px;
+">
+
+                    <div id="R1" class="addBox"> R1 540x 80 </div>
+                
+
+                    <div id="R2" class="addBox">R2 540x 80</div>
+
+                    <div style="display: flex;   
+                            flex-direction: row;                
+
+                            height: 80px;
+                            margin-bottom: 25px;">
+                            
+                        <div id="R31" class="addBox" style="flex: 1 1 385px; height:80px; margin-right:11px">R31 385x 80</div>
+                        <div id="R32" class="addBox" style="flex: 0 0 auto; max-width: 144px; width: 100%; max-width: 144px; height:80px ">R32 144x 80</div>
+
+                    </div>
+
+                    <div style="display: flex;   
+                            flex-direction: row;                
+
+                            height: 80px;
+                            ">
+                            
+                        <div id="R41" class="addBox" style="width: 100%; max-width: 130px; height:80px; margin-right:11px">R41 130x 80</div>
+                        <div id="R42" class="addBox" style="width: 100%; max-width: 400px; height:80px ">R42 400x 80</div>
+
+                        <div id="R41" class="addBox" style="flex: 0 0 130px; height:80px; margin-right:10px">R41 130x 80</div>
+                        <div id="R42" class="addBox" style="flex: 1 1 auto; max-width: 400px; height:80px ">R42 400x 80</div>
+                    </div>
+
+            </div>
+
+            </div>
+        </section> -->
+    </main>
+    <!-- footer stars here -->
+    {% endblock %}
+
+    {% block Samplecontent %}
+    <!-- Sample report -->
+    <div id="sampleReport" data-dismiss="sampleReport"
+        class="modal duration-200 flex fixed inset-0 bg-backdrop transition-opacity z-50 overflow-hidden items-center justify-center p-4">
+        <div class="bg-white border shadow-lg p-7 w-full max-w-[480px] relative">
+            <button class="absolute right-5 top-5" data-dismiss="sampleReport">
+                <svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M12.7734 11.4404L22.8809 21.5625L21.5625 22.8809L11.4404 12.7734L1.31836 22.8809L0 21.5625L10.1074 11.4404L0 1.31836L1.31836 0L11.4404 10.1074L21.5625 0L22.8809 1.31836L12.7734 11.4404Z"
+                        fill="#737373" />
+                </svg>
+            </button>
+            <div onclick="event.stopPropagation();">
+                <h4 class="text-neutral-900 font-medium mb-5 text-2xl">Sample Reports ({{ site_variables.country_name |default_if_none:""}})</h4>
+                <ul class="flex flex-col text-tiny gap-4">
+                    {% for sample_report in sample_repos %}
+                    <li class="flex items-center gap-3">
+                        <p class="text-teal-900 text-15 leading-2">{{sample_report.ReportTitle}}</p>
+                        <a class="bg-teal-600 text-white ml-auto px-3 py-2 font-bold rounded hover:bg-teal-700 duration-200" target="_blank"
+                            href="{{sample_report.ReportUrl}}">View in new tab</a>
+                    </li>
+                    {% endfor %}
+                    <!-- <li class="flex items-center gap-3">
+                        <p class="text-teal-900 text-15 leading-2">People Profile Lite
+                            ipsu</p>
+                        <a class="bg-teal-600 text-white ml-auto px-3 py-2 font-bold rounded hover:bg-teal-700 duration-200" target="_blank"
+                            href="https://storage.googleapis.com/cfreports-85a5f.appspot.com/sample_report/fAXj2OWzNwS2gG3yUlP0AQeZqjAMBwoiudrovhqj.pdf">View in new tab</a>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <p class="text-teal-900 text-15 leading-2">Verified Balance Sheet
+                            ipsu</p>
+                        <a class="bg-teal-600 text-white ml-auto px-3 py-2 font-bold rounded hover:bg-teal-700 duration-200" target="_blank"
+                            href="https://storage.googleapis.com/cfreports-85a5f.appspot.com/sample_report/oZ3lYxNwCoC3nrhTjDY8wHa62Hm3hz7gHMdObwum.pdf">View in new tab</a>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <p class="text-teal-900 text-15 leading-2">Financial Statements
+                            ipsu</p>
+                        <a class="bg-teal-600 text-white ml-auto px-3 py-2 font-bold rounded hover:bg-teal-700 duration-200" target="_blank"
+                            href="https://storage.googleapis.com/cfreports-85a5f.appspot.com/sample_report/Z4Gv8bzs8VDKoF2TBN7bGx8TkolGJtiDp29oa1j9.pdf">View in new tab</a>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <p class="text-teal-900 text-15 leading-2">Compliance and Financial Profile
+                            ipsu</p>
+                        <a class="bg-teal-600 text-white ml-auto px-3 py-2 font-bold rounded hover:bg-teal-700 duration-200" target="_blank"
+                            href="https://storage.googleapis.com/cfreports-85a5f.appspot.com/sample_report/Ahj1bg92Ggl8eWvqPx35i1JJyxLImlWYTLuqNGfK.pdf">View in new tab</a>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <p class="text-teal-900 text-15 leading-2">Business-Profile
+                            ipsu</p>
+                        <a class="bg-teal-600 text-white ml-auto px-3 py-2 font-bold rounded hover:bg-teal-700 duration-200" target="_blank"
+                            href="https://storage.googleapis.com/cfreports-85a5f.appspot.com/sample_report/3OnN2VhK8kOgOVEIvSlcdr7GH8FwzFQ8FvXQLydJ.pdf">View in new tab</a>
+                    </li> -->
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--/sample report-->
+    <!-- info report -->
+    <div id="deliveryReport"
+        class="modal duration-200 flex fixed inset-0 bg-backdrop transition-opacity z-50 overflow-hidden items-center justify-center p-4">
+        <div class="bg-white border shadow-lg p-7 pr-14 max-w-[480px] w-full relative">
+            <button class="absolute right-5 top-5" data-dismiss="deliveryReport">
+                <svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M12.7734 11.4404L22.8809 21.5625L21.5625 22.8809L11.4404 12.7734L1.31836 22.8809L0 21.5625L10.1074 11.4404L0 1.31836L1.31836 0L11.4404 10.1074L21.5625 0L22.8809 1.31836L12.7734 11.4404Z"
+                        fill="#737373" />
+                </svg>
+            </button>
+            <div>
+                <h5 class="font-medium mb-5 text-teal-600 text-base">Important:
+                </h5>
+                <p class="font-medium text-base mb-5 text-teal-600">Regarding delivery of reports:</p>
+                <p class="text-tiny mb-5 text-gray-700">
+                    <span class="text-base font-medium text-zinc-600"> Standard and Detailed Reports:</span> You will
+                    receive the official report in Indonesian, along with English translated version by email within 24
+                    hours of business working day.
+                </p>
+                <p class="mb-5 text-gray-700">If company incorporation detail is not found, we will refund within 24
+                    hours. happens in very rare cases due</p>
+                <p class="text-tiny">For any other info or question, please <a class="text-teal-500 font-bold"
+                        href="{{ site_variables.contact_page_link |default_if_none:''}}">connect with
+                        us</a></p>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+    <!--/info report-->
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script> -->
+
+
+        {% block footerscripts %}
+        <!-- Include the common scripts from base -->
+        {{ block.super }}
+
+        <script src="{% static './js/detailSuggestions.js'  %}"> </script>
+        <script src="{% static './js/rhsTotal.js'  %}"></script>
+        <script src="{% static './js/cart.js'  %}"></script>
+
+
+
+
+        <script type="application/ld+json"> { 
+            "@context": "https://schema.org", 
+            "@type": "Organization", 
+            "name": "{{company.RegisteredName}}" , 
+            "url": "{{ site_variables.url|default_if_none:''}}{{request.path}}", 
+            "legalName": "{{company.RegisteredName}}", 
+            "leiCode": "{{company.RegistrationNumber}}", 
+            "foundingDate": "{{ company.UENIssueDate }}" 
+            } 
+        </script> 
+        {% endblock %}

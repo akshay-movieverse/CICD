@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load socialaccount %}
+
+
+
+{% block title %}Cookie Policy{% endblock %}
+    {% block css %}
+        {{ block.super }}
+    {% endblock %}
+
+    {% block headscripts %}
+        {{ block.super }}
+    {% endblock %}
+
+
+{% block header %}
+{{ block.super }}
+{% endblock %}
+
+{% block content %}
+  <!--/header-->
+  <main>
+    <!-- cookie policy section starts here -->
+    <section class="bg-neutral-100 py-5 md:py-[34px]">
+      <div class="container container-xs-20 pt-24 md:pt-20 lg:pt-0">
+        <div class="bg-white border border-neutral-300 px-[15px] md:px-[27px] py-5 mb-[25px]">
+          <h2 class="text-5xl font-medium mt-5 mb-[30px]">Cookie Policy</h2>
+          <p>
+            We use cookies and/or similar technologies to analyze customer
+            behavior, administer the website, track users’ movements, and to
+            collect information about users. This is done in order to
+            personalize and enhance your experience with us.
+          </p>
+          <br />
+          <p>
+            A cookie is a tiny text file stored on your computer. Cookies
+            store information that is used to help make sites work. Only we
+            can access the cookies created by our website. You can control
+            your cookies at the browser level. Choosing to disable cookies may
+            hinder your use of certain functions.
+          </p>
+          <br />
+          <p><b>We use cookies for the following purposes:</b></p>
+          <ul class="list-disc text-5xl font-medium text-gray-600 pl-5">
+            <li class="mb-5">
+              <p class="text-tiny font-normal leading-6 mb-5">
+                Necessary cookies – these cookies are required for you to be
+                able to use some important features on our website, such as
+                logging in. These cookies don’t collect any personal
+                information.
+              </p>
+            </li>
+            <li class="mb-5">
+              <p class="text-tiny font-normal leading-6 mb-5">
+                Functionality cookies – these cookies provide functionality
+                that makes using our service more convenient and makes
+                providing more personalized features possible. For example,
+                they might remember your name and e-mail in comment forms so
+                you don’t have to re-enter this information next time when
+                commenting.
+              </p>
+            </li>
+            <li class="mb-[50px]">
+              <p class="text-tiny font-normal leading-6 mb-5">
+                Advertising cookies – these cookies are used to deliver
+                advertisements that are relevant to you and to your interests.
+                In addition, they are used to limit the number of times you
+                see an advertisement. They are usually placed to the website
+                by advertising networks with the website operator’s
+                permission. These cookies remember that you have visited a
+                website and this information is shared with other
+                organizations such as advertisers. Often targeting or
+                advertising cookies will be linked to site functionality
+                provided by the other organization.
+              </p>
+            </li>
+          </ul>
+          <p>Default cookie (Persistent)</p>
+          <p>1 year</p>
+          <p>
+            We set this cookie to limit showing the cookie policy on every
+            page view/visit.
+          </p>
+          <br />
+          <p>Google Analytics cookies</p>
+          <p>Third Party</p>
+          <p>2 years</p>
+          <p>
+            We use Google Analytics to improve the user experience on the
+            website.
+          </p>
+          <br />
+          <p>
+            You can remove cookies stored in your computer via your browser
+            settings. Alternatively, you can control some 3rd party cookies by
+            using a privacy enhancement platform such as optout.aboutads.info
+            or youronlinechoices.com. For more information about cookies,
+            visit allaboutcookies.org.
+          </p>
+          <br />
+          <p>
+            We use Google Analytics and Microsoft to measure traffic on our
+            website. Google has their own Privacy Policy which you can review
+            here. If you’d like to opt out of tracking by Google Analytics,
+            visit the Google Analytics opt-out page.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <!-- footer stars here -->
+  {% endblock %}
+
+
+  <!--/footer-->
+  {% block footerscripts %}
+  {{ block.super }}
+
+  <script src="{% static './js/detailSuggestions.js'  %}"> </script>
+  {% endblock %}

@@ -1,0 +1,533 @@
+{% load static %}
+{% load socialaccount %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Default Title{% endblock %}</title>
+
+    
+    {% block additional_meta_tags %}{% endblock %}
+
+    {% block css %}
+    <link rel="icon" href="{% static './images/favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" media="all" href="{% static './css/style.min.css'  %}" />
+    <link href="https://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet">
+    {% endblock %}
+
+    <meta name="csrf-token" content="{{ csrf_token }}">
+
+    {% block headscripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-autocomplete/1.0.7/jquery.auto-complete.min.js"></script>
+    <!-- <script src="https://apis.google.com/js/platform.js" async defer></script> -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script> <!-- NEW -->
+
+    {% endblock %}
+</head>
+
+
+
+<body>
+
+
+    {% block header %}
+
+    <header class="fixed top-0 w-full z-40 bg-white">
+        <nav class="bg-gray-700">
+            <div class="flex justify-between items-center h-[57px] relative 2xl:px-9 px-4 md:px-6">
+                <div class="md:flex items-center" style="white-space: nowrap;">
+                    <!-- logo -->
+                    <a href="{% url 'company-home' %}">
+                        <img src='{{ site_variables.url |default_if_none:""}}/static/logo/{{ site_variables.logo |default_if_none:""}}' class="md:h-auto h-5" height="100%" width="100%" alt="logo">
+                    </a>
+                    <!-- /logo -->
+                    <!-- <a class="text-tiny hover:text-amber-400 leading-2 mt-1 hidden md:inline-block text-white lg:ml-24 md:ml-8 mr-4" href="https://companiesfacts.com/business/business-registration/india" target="_blank" style="
+                            margin-left: 20px;
+                            margin-right: 10px;
+                        ">Business Registration</a>
+                                            <a class="text-tiny hover:text-amber-400 leading-2 mt-1 hidden md:inline-block text-white lg:ml-24 md:ml-8 mr-4" href="https://companiesfacts.com/business/business-registration/india" target="_blank" style="
+                            margin-left: 10px;
+                            margin-right: 10px;
+                        ">Our accounting services</a>
+                                            <a class="text-tiny hover:text-amber-400 leading-2 mt-1 hidden md:inline-block text-white lg:ml-24 md:ml-8 mr-4" href="https://companiesfacts.com/business/business-registration/india" target="_blank" style="
+                            margin-left: 10px;
+                            margin-right: 10px;
+                        ">Global Reports</a> -->
+                </div>
+
+                
+                <div class="flex flex-row items-center">
+                    <!--search area-->
+                    <div class="relative hidden lg:flex mr-12 desktop-search-menu">
+                        <!-- <div class="w-32 max-w-[150px] h-full flex items-center dropdown-btn group relative">
+                            <div
+                                class="text-gray-700 leading-2 dropdown-text font-medium text-tiny flex gap-x-1 w-full justify-between items-center cursor-pointer relative bg-amber-300 py-1.5 px-3">
+                                <span> Singapore</span>
+                                <img src="{% static './images/dropdown-down-arrow.svg'  %}" height="100%" width="100%"
+                                    class="w-auto group-hover:rotate-180" alt="arrow" />
+                            </div>
+
+                            <ul
+                                class="absolute border dropdown-menu border-black text-gray-700 font-medium bg-white w-full top-full opacity-0 group-hover:opacity-100 invisible group-hover:visible duration-200">
+                                <li>
+                                    <a href="javascript:void(0)"
+                                        class="py-2 px-3 leading-2 text-tiny block duration-200 hover:bg-amber-300">
+                                        Indonesia</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"
+                                        class="py-2 px-3 leading-2 text-tiny block duration-200 hover:bg-amber-300">
+                                        Vietnam</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"
+                                        class="py-2 px-3 leading-2 text-tiny block duration-200 hover:bg-amber-300">
+                                        Malaysia</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"
+                                        class="py-2 px-3 leading-2 text-tiny block duration-200 hover:bg-amber-300">
+                                        Philippines</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"
+                                        class="py-2 px-3 leading-2 text-tiny block duration-200 hover:bg-amber-300">
+                                        Singapore</a>
+                                </li>
+                            </ul>
+                            
+
+                            <div
+                                class="group-hover:bg-black dropdown-backdrop absolute invisible group-hover:visible transition-all duration-200 group-hover:bg-opacity-70 h-full w-full group-hover:fixed top-0 left-0 -z-10 group-hover:pointer-events-none">
+                            </div>
+                        </div> -->
+                        <div class="w-32 max-w-[150px] h-full flex items-center dropdown-btn group relative">
+                            <div class="text-gray-700 leading-2 dropdown-text font-medium text-tiny flex gap-x-1 w-full justify-between items-center cursor-pointer relative bg-amber-300 py-1.5 px-3">
+                                <span>{{ site_variables.country_name |default_if_none:""}}</span>
+                                
+                            </div>
+                            
+                        </div>
+                        <div class="flex-grow lg:w-[420px] relative">
+                            <input id="search"
+                                class="py-1.5 company-search px-3 text-gray-500 leading-2 text-tiny focus:outline-none w-full font-light"
+                                type="text" placeholder="Search company name here..." />
+                            <ul id="result"
+                                class="absolute company-menu opacity-0 invisible border border-black text-gray-700 font-normal bg-white w-full top-full duration-200 text-md">
+                                <!-- <li>
+                                    <a class="py-2 px-3 leading-2 text-tiny block duration-200 hover:bg-amber-300 truncate"
+                                        href="javascript:void(0)">Lorem, ipsum dolor sit amet consectetur adipisicing
+                                        elit.
+                                        Distinctio vero nihil voluptatum laborum consequatur et
+                                        ratione possimus omnis consequuntur
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="py-2 px-3 leading-2 text-tiny block duration-200 hover:bg-amber-300 truncate"
+                                        href="javascript:void(0)">Lorem, ipsum dolor sit amet consectetur adipisicing
+                                        elit.
+                                        Distinctio vero nihil voluptatum laborum consequatur et
+                                        ratione possimus omnis consequuntur
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="py-2 px-3 leading-2 text-tiny block duration-200 hover:bg-amber-300 truncate"
+                                        href="javascript:void(0)">Lorem, ipsum dolor sit amet consectetur adipisicing
+                                        elit.
+                                        Distinctio vero nihil voluptatum laborum consequatur et
+                                        ratione possimus omnis consequuntur
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="py-2 px-3 leading-2 text-tiny block duration-200 hover:bg-amber-300 truncate"
+                                        href="javascript:void(0)">Lorem, ipsum dolor sit amet consectetur adipisicing
+                                        elit.
+                                        Distinctio vero nihil voluptatum laborum consequatur et
+                                        ratione possimus omnis consequuntur
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="py-2 px-3 leading-2 text-tiny block duration-200 hover:bg-amber-300 truncate"
+                                        href="javascript:void(0)">Lorem, ipsum dolor sit amet consectetur adipisicing
+                                        elit.
+                                        Distinctio vero nihil voluptatum laborum consequatur et
+                                        ratione possimus omnis consequuntur
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="py-2 px-3 leading-2 text-tiny block duration-200 hover:bg-amber-300 truncate"
+                                        href="javascript:void(0)">Lorem, ipsum dolor sit amet consectetur adipisicing
+                                        elit.</a>
+                                </li>
+                                <li>
+                                    <a class="py-2 px-3 leading-2 text-tiny block duration-200 hover:bg-amber-300 truncate"
+                                        href="javascript:void(0)">Lorem, ipsum dolor sit amet consectetur adipisicing
+                                        elit.</a>
+                                </li>
+                                <li>
+                                    <a class="py-2 px-3 leading-2 text-tiny block duration-200 hover:bg-amber-300 truncate"
+                                        href="javascript:void(0)">Lorem, ipsum dolor sit amet consectetur adipisicing
+                                        elit.
+                                        Distinctio vero nihil voluptatum laborum consequatur et
+                                        ratione possimus omnis consequuntur
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="py-2 px-3 leading-2 text-tiny block duration-200 hover:bg-amber-300 truncate"
+                                        href="javascript:void(0)">Lorem, ipsum dolor sit amet consectetur adipisicing
+                                        elit.</a>
+                                </li>
+                                <li>
+                                    <a class="py-2 px-3 leading-2 text-tiny block duration-200 hover:bg-amber-300 truncate"
+                                        href="javascript:void(0)">Lorem, ipsum dolor sit amet consectetur adipisicing
+                                        elit.</a>
+                                </li>
+                                <li>
+                                    <a class="py-2 px-3 leading-2 text-tiny block duration-200 hover:bg-amber-300 truncate"
+                                        href="javascript:void(0)">Lorem, ipsum dolor sit amet consectetur adipisicing
+                                        elit.</a>
+                                </li>
+                                <li>
+                                    <a class="py-2 px-3 leading-2 text-tiny block duration-200 hover:bg-amber-300 truncate"
+                                        href="javascript:void(0)">Lorem, ipsum dolor sit amet consectetur adipisicing
+                                        elit.</a>
+                                </li> -->
+                            </ul>
+                            <!-- /dropdown -->
+                        </div>
+                    </div>
+                    <!--/search area-->
+                    <!-- cart -->
+                    <div class="text-base leading-2 font-bold mr-12">
+                        <a class="text-white mb-3 cart-active" href="{% url 'check-out' %}">
+                            <span id="total_cart_items" class="block text-right -mr-[6px] -mb-[6px]">{{total_cart}}</span>
+                            <img src="{% static './images/bucket.svg'  %}" class="empty" height="100%" width="100%"
+                                alt="bucket" />
+                            <img src="{% static './images/bucket-fill.svg'  %}" class="fill" height="100%" width="100%"
+                                alt="bucket" />
+                        </a>
+                    </div>
+                    <!-- /cart -->
+                    <!-- gmail -->
+                    <!-- <button>
+                        <img src="{% static './images/gmail.svg'  %}" class="md:h-auto md:w-auto h-6 w-6" height="100%"
+                            width="100%" alt="gmail" />
+                    </button> -->
+
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'logout_view' %}"><p style="color: gold;">Logout {{user.username}} </p></a>
+                    {% else %}
+                    <!-- <a href="{% provider_login_url 'google' %}?next=/"><img src="{% static './images/gmail.svg'  %}" class="md:h-auto md:w-auto h-6 w-6" height="100%"
+                        width="100%" alt="gmail" /></a> -->
+
+                        <div id="g_id_onload"
+                        data-client_id="143188303993-dsj64d4e1r8gg85isgiuf1k25p3gv2cu.apps.googleusercontent.com"
+                        data-context="signin"
+                        data-ux_mode="popup"
+                        data-login_uri="{% url 'google-one-tap-login' %}"
+                        data-auto_select="true"
+                        data-close_on_tap_outside="false"
+                        data-itp_support="true"
+                        >
+                </div>
+                
+                <div class="g_id_signin"
+                        data-type="icon"
+                        data-shape="circle"
+                        data-theme="outline"
+                        data-text="signin_with"
+                        data-size="large">
+                </div>
+                    {% endif %}
+
+                    <!-- /gmail -->
+                </div>
+            </div>
+        </nav>
+        <div id="dropdownBackdrop"
+            class="bg-black invisible transition-all duration-200 bg-opacity-60 h-full w-full fixed top-0 left-0 -z-10 pointer-events-none">
+        </div>
+       <!--search area-->
+       <div class="py-6 px-4 lg:hidden bg-gray-200 border-b border-b-gray-500">
+        <div class="relative flex lg:hidden border border-gray-700">
+            <div class="w-22 dropdown-btn max-w-[150px] h-full flex items-center group relative">
+                <div
+                    class="text-gray-700 dropdown-text leading-2 font-medium text-tiny flex gap-x-2 w-full justify-between items-center cursor-pointer relative bg-amber-300 py-1.5 px-3">
+                    <span>{{ site_variables.country_name |default_if_none:""}}</span>
+                    <img src="{% static './images/dropdown-down-arrow.svg'  %}" alt="arrow" />
+                </div>
+                <!-- dropdown -->
+                <!-- <ul
+                    class="absolute border dropdown-menu border-black text-gray-700 font-medium bg-white w-full top-full opacity-0 group-hover:opacity-100 invisible group-hover:visible duration-200">
+                    <li>
+                        <a href="javascript:void(0)"
+                            class="py-2 px-3 leading-2 text-tiny block duration-200 hover:bg-amber-300">
+                            Indonesia</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)"
+                            class="py-2 px-3 leading-2 text-tiny block duration-200 hover:bg-amber-300">
+                            Vietnam</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)"
+                            class="py-2 px-3 leading-2 text-tiny block duration-200 hover:bg-amber-300">
+                            Malaysia</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)"
+                            class="py-2 px-3 leading-2 text-tiny block duration-200 hover:bg-amber-300">
+                            Philippines</a>
+                    </li>
+                </ul> -->
+                <!-- /dropdown -->
+                <div
+                    class="group-hover:bg-black dropdown-backdrop absolute invisible group-hover:visible transition-all duration-200 group-hover:bg-opacity-70 h-full w-full group-hover:fixed top-0 left-0 -z-10 group-hover:pointer-events-none">
+                </div>
+            </div>
+            <div class="flex-grow lg:w-[420px] relative">
+                <input id="searchm"
+                    class="py-1.5 company-search px-3 text-gray-500 leading-2 text-tiny focus:outline-none w-full font-light ui-autocomplete-input"
+                    type="text" placeholder="Search company name here..." />
+                    <ul id="resultm" class="absolute company-menu opacity-0 invisible border border-black text-gray-700 font-normal bg-white w-full top-full duration-200 text-md">
+                    </ul>                   
+            </div>
+        </div>
+    </div>
+    <!--/search area-->
+    </header>
+    {% endblock %}
+{% block content %}
+<!-- Default content can go here -->
+{% endblock %}
+
+
+
+
+
+    <!-- footer stars here -->
+    <footer class="bg-gray-700 py-7">
+        <div class="container-fluid">
+            <div
+                class="grid grid-cols-1 md:grid-cols-[30%_37%_20%] xl:grid-cols-[30%_15%_25%_10%] justify-between gap-x-6 xl:gap-x-24 gap-y-6 md:gap-y-10">
+                <div class="order-4 xl:order-1 col-span-1 md:col-span-5 xl:col-span-1">
+                    <a class="inline-block mb-4" href="home.html">
+                        <img width="174" src='{{ site_variables.url |default_if_none:""}}/static/logo/{{ site_variables.logo |default_if_none:""}}' alt="logo" />
+                    </a>
+                    <p class="text-gray-50 text-tiny leading-3 text-justify mb-5">
+                        {{ site_variables.halfdomain |default_if_none:""}}
+                                 is a privately held company. We strive to provide verified company registration
+                        details, information like company size, shareholders, structure, financial performance,
+                        credit-worthiness, rating, risk assessment, patents, certifications, legal case or arbitration,
+                        company KYC, company performance analysis, and overall due diligence.
+                    </p>
+                    <ul class="flex mt-[30px] mb-[30px] xl:hidden">
+                        <li class="mr-9">
+                            <a class="duration-200 hover:opacity-80" href="javascript:;">
+                                <img src="{% static './images/social/Insta.svg' %}" alt="social" />
+                            </a>
+                        </li>
+                        <li class="mr-9">
+                            <a class="duration-200 hover:opacity-80" href="javascript:;">
+                                <img src="{% static './images/social/Twitter.svg' %}" alt="social" />
+                            </a>
+                        </li>
+                        <li>
+                            <a class="duration-200 hover:opacity-80" href="javascript:;">
+                                <img src="{% static './images/social/Facebook.svg' %}" alt="social" />
+                            </a>
+                        </li>
+                    </ul>
+                    <p class="text-neutral-300 text-tiny leading-4 font-light">
+                        © {% now "Y" %} {{ site_variables.halfdomain |default_if_none:""}}. All rights reserved.
+                    </p>
+                </div>
+                <div class="order-1 xl:order-2 flex flex-col">
+                    <h4 class="mb-4 text-gray-400 text-2xl">Contact</h4>
+                    <ul>
+                        <li class="mb-4">
+                            <a class="text-gray-50 text-tiny flex duration-200 hover:text-amber-400"
+                                href='mailto:{{ site_variables.email|default_if_none:"" }}'>
+                                <img class="mr-4" src="{% static './images/contact/email.svg' %}" alt="contact" />
+                                {{ site_variables.email |default_if_none:"" }}
+
+                            </a>
+                        </li>
+                        <li class="mb-4">
+                            <a class="text-gray-50 text-tiny flex duration-200 hover:text-amber-400" href="javascipt:;">
+                                <img class="mr-4" src="{% static './images/contact/instant.svg' %}" alt="contact" />
+                                24 x 7 (Instant Reply)
+                            </a>
+                        </li>
+                        <li class="mb-4">
+                            <a class="text-gray-50 text-tiny flex duration-200 hover:text-amber-400" href='https://wa.me/{{ site_variables.whatsapp |default_if_none:""}}?text=Hello {{site_variables.fulldomain |default_if_none:""}} , I have a question'>
+                                <img class="mr-4" src="{% static './images/contact/watsapp.svg' %}" alt="contact" />
+                                {{ site_variables.phone1 |default_if_none:""}}
+                            </a>
+                        </li>
+                        <li class="mb-4">
+                            <a class="text-gray-50 text-tiny flex duration-200 hover:text-amber-400" href="javascipt:;">
+                                <img class="mr-4" src="{% static './images/contact/call.svg' %}" alt="contact" />
+                                {{ site_variables.phone2 |default_if_none:""}}
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- <ul class="hidden xl:flex mt-5">
+                        <li class="mr-9">
+                            <a class="duration-200 hover:opacity-80" href="https://www.instagram.com/companiesfacts/">
+                                <img src="{% static './images/social/Insta.svg' %}" alt="social" />
+                            </a>
+                        </li>
+                        <li class="mr-9">
+                            <a class="duration-200 hover:opacity-80" href="https://twitter.com/Companiesfacts">
+                                <img src="{% static './images/social/Twitter.svg' %}" alt="social" />
+                            </a>
+                        </li>
+                        <li>
+                            <a class="duration-200 hover:opacity-80" href="https://www.facebook.com/Companiesfacts">
+                                <img src="{% static './images/social/Facebook.svg' %}" alt="social" />
+                            </a>
+                        </li>
+                    </ul> -->
+                </div>
+                <div class="order-2 xl:order-3 flex flex-col">
+                    <h4 class="mb-4 text-gray-400 text-2xl">Markets</h4>
+                    <ul class="flex flex-wrap space-y-4">
+                        <li class="w-1/2">
+                            <a class="text-gray-50 text-tiny flex duration-200 hover:text-amber-400 footer-country"
+                                data-country="indonesia" href="javascipt:;">
+                                <img class="mr-[9px]" src="{% static './images/flag/indonesia.svg' %}" alt="Indonesia" />
+                                Indonesia
+                            </a>
+                        </li>
+                        <li class="w-1/2 !mt-0">
+                            <a class="text-gray-50 text-tiny flex duration-200 hover:text-amber-400 footer-country"
+                                data-country="hongkong" href="javascipt:;">
+                                <img class="mr-[9px]" src="{% static './images/flag/hongkong.svg' %}" alt="HongKong" />
+                                HongKong
+                            </a>
+                        </li>
+                        <li class="w-1/2">
+                            <a class="text-gray-50 text-tiny flex duration-200 hover:text-amber-400 footer-country"
+                                data-country="vietnam" href="javascipt:;">
+                                <img class="mr-[9px]" src="{% static './images/flag/vietnam.svg' %}" alt="Vietnam" />
+                                Vietnam
+                            </a>
+                        </li>
+                        <li class="w-1/2">
+                            <a class="text-gray-50 text-tiny flex duration-200 hover:text-amber-400 footer-country"
+                                data-country="india" href="javascipt:;">
+                                <img class="mr-[9px]" src="{% static './images/flag/india.svg' %}" alt="India" />
+                                India
+                            </a>
+                        </li>
+                        <li class="w-1/2">
+                            <a class="text-gray-50 text-tiny flex duration-200 hover:text-amber-400 footer-country"
+                                data-country="singapore" href="javascipt:;">
+                                <img class="mr-[9px]" src="{% static './images/flag/singapore.svg' %}" alt="Singapore" />
+                                Singapore
+                            </a>
+                        </li>
+                        <li class="w-1/2">
+                            <a class="text-gray-50 text-tiny flex duration-200 hover:text-amber-400 footer-country"
+                                data-country="thailand" href="javascipt:;">
+                                <img class="mr-[9px]" src="{% static './images/flag/thailand.svg' %}" alt="Thailand" />
+                                Thailand
+                            </a>
+                        </li>
+                        <li class="w-1/2">
+                            <a class="text-gray-50 text-tiny flex duration-200 hover:text-amber-400 footer-country"
+                                data-country="malaysia" href="javascipt:;">
+                                <img class="mr-[9px]" src="{% static './images/flag/malaysia.svg' %}" alt="Malaysia" />
+                                Malaysia
+                            </a>
+                        </li>
+                        <li class="w-1/2">
+                            <a class="text-gray-50 text-tiny flex duration-200 hover:text-amber-400 footer-country"
+                                data-country="canada" href="javascipt:;">
+                                <img class="mr-[9px]" src="{% static './images/flag/canada.svg' %}" alt="Canada" />
+                                Canada
+                            </a>
+                        </li>
+                        <li class="w-1/2">
+                            <a class="text-gray-50 text-tiny flex duration-200 hover:text-amber-400 footer-country"
+                                data-country="indonesia" href="javascipt:;">
+                                <img class="mr-[9px]" src="{% static './images/flag/philippines.svg' %}" alt="Philippines" />
+                                Philippines
+                            </a>
+                        </li>
+                        <li class="w-1/2">
+                            <a class="text-gray-50 text-tiny flex duration-200 hover:text-amber-400 footer-country"
+                                data-country="indonesia" href="javascipt:;">
+                                <img class="mr-[9px]" src="{% static './images/flag/australia.svg' %}" alt="Australia" />
+                                Australia
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="order-3 xl:order-4 flex flex-col">
+                    <h4 class="mb-3 text-gray-400 text-2xl">About</h4>
+                    <ul class="flex xl:block flex-wrap space-y-4">
+                        <li class="w-1/2 md:w-full lg:w-1/2 xl:w-full">
+                            <a class="text-gray-50 text-tiny flex duration-200 hover:text-amber-400"
+                                href="{% url 'about-us' %}">
+                                About us
+                            </a>
+                        </li>
+                        <li style="margin-top: 10px;" class="w-1/2 md:w-full lg:w-1/2 xl:w-full">
+                            <a class="text-gray-50 text-tiny flex duration-200 hover:text-amber-400"
+                                href="{% url 'contact-us' %}">
+                                Contact us
+                            </a>
+                        </li>
+                        <li style="margin-top: 10px;" class="w-1/2 md:w-full lg:w-1/2 xl:w-full">
+                            <a class="text-gray-50 text-tiny flex duration-200 hover:text-amber-400"
+                                href="{% url 'privacy-policy' %}">
+                                Privacy Policy
+                            </a>
+                        </li>
+                        <li style="margin-top: 10px;" class="w-1/2 md:w-full lg:w-1/2 xl:w-full">
+                            <a class="text-gray-50 text-tiny flex duration-200 hover:text-amber-400"
+                                href="{% url 'refund-policy' %}">
+                                Refund Policy
+                            </a>
+                        </li>
+                        <li style="margin-top: 10px;" class="w-1/2 md:w-full lg:w-1/2 xl:w-full">
+                            <a class="text-gray-50 text-tiny flex duration-200 hover:text-amber-400"
+                                href="{% url 'cookie-policy' %}">
+                                Cookie Policy
+                            </a>
+                        </li>
+                        <li style="margin-top: 10px;" class="w-1/2 md:w-full lg:w-1/2 xl:w-full">
+                            <a class="text-gray-50 text-tiny flex duration-200 hover:text-amber-400"
+                                href="{% url 'web-terms' %}">
+                                Terms & Conditions
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    {% block Samplecontent %}
+    <!-- Default content can go here -->
+    {% endblock %}
+
+
+    <!--/footer-->
+    {% block footerscripts %}
+        <script src="{% static './js/main.js' %}"></script>
+        
+        <script src="{% static './js/homeSuggestions.js'  %}"> </script>
+        <script src="{% static './js/paginator.js'  %}"> </script>
+    {% endblock %}
+</body>
+
+</html>

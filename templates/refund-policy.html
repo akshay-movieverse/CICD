@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load socialaccount %}
+
+
+
+{% block title %}Refund Policy{% endblock %}
+    {% block css %}
+        {{ block.super }}
+    {% endblock %}
+
+    {% block headscripts %}
+        {{ block.super }}
+    {% endblock %}
+
+
+{% block header %}
+{{ block.super }}
+{% endblock %}
+
+{% block content %}
+  <!--/header-->
+  <main>
+    <!-- refund policy section starts here -->
+    <section class="bg-neutral-100 py-6 md:py-[34px]">
+      <div class="container container-xs-20 pt-24 md:pt-20 lg:pt-0">
+        <div class="bg-white border border-neutral-300 px-[15px] md:px-[27px] py-5 mb-6">
+          <h2 class="text-5xl font-medium mt-5 mb-[30px]">Refund Policy</h2>
+          <ol class="list-decimal text-4xl font-medium text-gray-600 pl-5">
+            <li class="mb-[50px]">
+              <h3 class="mb-[15px]">In case of report's unavailability</h3>
+              <p class="text-tiny font-normal leading-6 mb-5">
+                We will refund within 24 hours (without any deduction or
+                transaction charges).
+              </p>
+              <p class="text-tiny font-normal leading-6 mb-5">
+                It happens in very rare cases due to the company's pending
+                arbitration in court or due to recent deregistration filing,
+                thus the information becomes inaccessible in the database even
+                if the company registration number exists).
+              </p>
+            </li>
+            <li class="mb-[50px]">
+              <h3 class="mb-[15px]">
+                Mistakes in report data or errors in compilation
+              </h3>
+              <p class="text-tiny font-normal leading-6 mb-[10px]">
+                We will refund within 24 hours (without any deduction or
+                transaction charges).
+              </p>
+              <p class="text-tiny font-normal leading-6 mb-[10px]">
+                From our 1000+ customers who bought reports from us in past,
+                we didn't have any data error or instance like that. We take
+                extreme care while compiling the data and cross-verify it
+                during the compilation of records and translation.
+              </p>
+            </li>
+            <li class="mb-[50px]">
+              <h3 class="mb-[15px]">
+                Wrong report type or wrong company name was ordered
+              </h3>
+              <p class="text-tiny font-normal leading-6 mb-[10px]">
+                When you order the report from us, we take some time to
+                process it (although we start working instantly to check the
+                data records and confirmed availability). This means we have
+                not already ordered it in reality from our report exchange
+                partners, agencies, and translators in this time gap. This
+                means we have not spent our pre-subscribed credits to buy that
+                report yet.
+              </p>
+              <p class="text-tiny font-normal leading-6 mb-[10px]">
+                In this case, we will refund 90% of the amount within 24 hours
+                of you informing us within this time gap. This time gap varies
+                and is not fixed.
+              </p>
+              <p class="text-tiny font-normal leading-6 mb-[10px]">
+                Please send the refund OR change request via email, text, SMS,
+                or WhatsApp to correct the report type or company name, and we
+                will happily accept (if an order has not been processed yet).
+              </p>
+              <p class="text-tiny font-normal leading-6 mb-[10px]">
+                We will not be able to refund any amount if we have processed
+                your report order (i.e. spent our credits) and the report is
+                now with our team (or we are waiting for the report to arrive)
+                to cross-check, verify, and translate.
+              </p>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+  </main>
+  <!-- footer stars here -->
+  {% endblock %}
+  <!-- footer stars here -->
+
+  <!--/footer-->
+
+  {% block footerscripts %}
+  {{ block.super }}
+
+      <script src="{% static './js/detailSuggestions.js'  %}"> </script>
+
+
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load socialaccount %}
+
+{% block title %}Thank You{% endblock %}
+
+
+  {% block css %}
+    <!-- Include the common scripts from base -->
+    {{ block.super }}
+
+  {% endblock %}
+
+
+  {% block header %}
+  {{ block.super }}
+  {% endblock %}
+
+
+  {% block content %}
+
+    <!--/header-->
+    <main>
+
+        <section class="bg-white pt-12 pb-36">
+            <div class="container">
+                <div class="flex justify-center">
+                    <div class="flex flex-col text-center items-center max-w-2xl text-black text-base">
+                        <img class="mb-9" src="{% static './images/hand-shake.svg'  %}" alt="icon">
+                        <h2 class="text-4xl mb-5">Your message travelled faster than the speed of sound to reach us. <br> Isn't it awesome?</h2>
+                        <h2 class="text-teal-600 text-4xl font-semibold mb-5">We hate to see your waiting. We will revert shortly.</h2>
+                        <p class="text-4xl mb-16">For instant response, please drop a message on WhatsApp.</p>
+                        <a class="bg-teal-600 text-white hover:bg-teal-700 duration-300 text-tiny md:text-4xl px-9 py-2.5 rounded" href="{% url 'company-home' %}">Go back to Home Page Search</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    <!-- footer stars here -->
+    {% endblock %}
+
+
+  <!--/footer-->
+
+
+    {% block footerscripts %}
+    <!-- Include the common scripts from base -->
+    {{ block.super }}
+    <script src="{% static './js/detailSuggestions.js'  %}"> </script>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script> -->
+        {% endblock %}
