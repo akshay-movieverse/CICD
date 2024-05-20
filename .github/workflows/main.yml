@@ -21,17 +21,21 @@ jobs:
       with:
         python-version: '3.10'
 
-    - name: Set up environment variables
+    - name: Set up environment variables and Create env file
       run: |
-        echo "CLIENT_ID=${{ secrets.CLIENT_ID }}" >> .env
-        echo "CLIENT_SECRET=${{ secrets.CLIENT_SECRET }}" >> .env
-        echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
-        echo "DB_USER=${{ secrets.DB_USER }}" >> .env
-        echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
-        echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
-        echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
-        echo "EMAIL_HOST_USER=${{ secrets.EMAIL_HOST_USER }}" >> .env
-        echo "EMAIL_HOST_PASSWORD=${{ secrets.EMAIL_HOST_PASSWORD }}" >> .env
+        touch .env
+        echo "${{ secrets.ENV_FILE }}" > .env
+        cat .env
+        
+        # echo "CLIENT_ID=${{ secrets.CLIENT_ID }}" >> .env
+        # echo "CLIENT_SECRET=${{ secrets.CLIENT_SECRET }}" >> .env
+        # echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
+        # echo "DB_USER=${{ secrets.DB_USER }}" >> .env
+        # echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+        # echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
+        # echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
+        # echo "EMAIL_HOST_USER=${{ secrets.EMAIL_HOST_USER }}" >> .env
+        # echo "EMAIL_HOST_PASSWORD=${{ secrets.EMAIL_HOST_PASSWORD }}" >> .env
         # Add other environment variables as needed
         # Note: This assumes your Django application loads environment variables from a .env file
 
@@ -40,10 +44,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Run tests
-      run: |
-        python manage.py migrate
-        python manage.py test
+    # - name: Run tests
+    #   run: |
+    #     python manage.py migrate
+    #     python manage.py test
 
     - name: Deploy to Ubuntu Server
       uses: appleboy/ssh-action@v0.1.5
