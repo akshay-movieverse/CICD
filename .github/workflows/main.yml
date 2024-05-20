@@ -39,9 +39,9 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
         script: |
-          cd ${{ secrets.DEPLOY_PATH }}
+          cd /usr/local/lsws/Example/html/CICD
           git pull origin main
-          source myvenv/bin/activate
+          source /usr/local/lsws/Example/html/bin/activate
           pip install -r requirements.txt
           python3 manage.py migrate
           python3 manage.py collectstatic --noinput
